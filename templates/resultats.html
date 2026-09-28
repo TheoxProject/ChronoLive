@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        ChronoLive - Résultats
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f4f6f8;
+
+            color: #1f2933;
+        }
+
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        .header {
+
+            height: 64px;
+
+            background: #111827;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 30px;
+        }
+
+
+        .header-left {
+
+            font-size: 22px;
+
+            font-weight: 700;
+        }
+
+
+        .header-right {
+
+            font-size: 18px;
+
+            font-weight: 600;
+
+            opacity: 0.95;
+        }
+
+
+        /* =====================================================
+           CONTENU
+           ===================================================== */
+
+        .page {
+
+            width: 100%;
+
+            max-width: 1000px;
+
+            margin: 0 auto;
+
+            padding: 40px 20px 60px;
+        }
+
+
+        .main-panel {
+
+            background: white;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 4px 18px rgba(
+                    0,
+                    0,
+                    0,
+                    0.08
+                );
+
+            padding: 32px;
+        }
+
+
+        h1 {
+
+            margin: 0 0 30px;
+
+            font-size: 28px;
+        }
+
+
+        /* =====================================================
+           CONTROLES
+           ===================================================== */
+
+        .control-group {
+
+            margin-bottom: 28px;
+        }
+
+
+        .control-label {
+
+            display: block;
+
+            margin-bottom: 10px;
+
+            font-size: 16px;
+
+            font-weight: 600;
+        }
+
+
+        select {
+
+            width: 100%;
+
+            height: 46px;
+
+            padding: 0 14px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            background: white;
+
+            font-size: 15px;
+
+            color: #111827;
+
+            cursor: pointer;
+        }
+
+
+        select:focus {
+
+            outline: none;
+
+            border-color: #2563eb;
+        }
+
+
+        /* =====================================================
+           SLIDER CATEGORIE / FFC
+           ===================================================== */
+
+        .category-toggle {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            width: fit-content;
+        }
+
+
+        .toggle-label {
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+
+            color: #6b7280;
+
+            transition:
+                color 0.2s ease;
+        }
+
+
+        #labelCategorie {
+
+            color: #111827;
+        }
+
+
+        .switch {
+
+            position: relative;
+
+            display: inline-block;
+
+            width: 52px;
+
+            height: 28px;
+
+            flex-shrink: 0;
+        }
+
+
+        .switch input {
+
+            opacity: 0;
+
+            width: 0;
+
+            height: 0;
+        }
+
+
+        .slider {
+
+            position: absolute;
+
+            inset: 0;
+
+            background: #d1d5db;
+
+            border-radius: 999px;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease;
+        }
+
+
+        .slider::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 22px;
+
+            height: 22px;
+
+            left: 3px;
+
+            top: 3px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            box-shadow:
+                0 1px 4px rgba(
+                    0,
+                    0,
+                    0,
+                    0.2
+                );
+
+            transition:
+                transform 0.2s ease;
+        }
+
+
+        .switch input:checked + .slider {
+
+            background: #111827;
+        }
+
+
+        .switch input:checked + .slider::before {
+
+            transform:
+                translateX(24px);
+        }
+
+
+        /* =====================================================
+           FORMAT
+           ===================================================== */
+
+        .format-options {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 25px;
+        }
+
+
+        .format-option {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 15px;
+
+            cursor: pointer;
+        }
+
+
+        .format-option input {
+
+            width: 17px;
+
+            height: 17px;
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           APERCU
+           ===================================================== */
+
+        .preview-title {
+
+            font-size: 20px;
+
+            font-weight: 700;
+
+            margin-bottom: 14px;
+        }
+
+
+        .table-container {
+
+            width: 100%;
+
+            overflow-x: auto;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 10px;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 700px;
+        }
+
+
+        thead {
+
+            background: #f3f4f6;
+        }
+
+
+        th,
+        td {
+
+            padding: 13px 14px;
+
+            text-align: left;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+        }
+
+
+        th {
+
+            font-weight: 700;
+
+            color: #374151;
+        }
+
+
+        tbody tr:last-child td {
+
+            border-bottom: none;
+        }
+
+
+        tbody tr:hover {
+
+            background: #f9fafb;
+        }
+
+
+        .empty-row {
+
+            text-align: center;
+
+            color: #6b7280;
+
+            padding: 28px;
+        }
+
+
+        /* =====================================================
+           BOUTON EXPORT
+           ===================================================== */
+
+        .export-container {
+
+            display: flex;
+
+            justify-content: center;
+
+            margin-top: 32px;
+        }
+
+
+        .export-button {
+
+            border: none;
+
+            border-radius: 9px;
+
+            padding: 13px 32px;
+
+            background: #111827;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                background 0.15s ease,
+                transform 0.1s ease;
+        }
+
+
+        .export-button:hover {
+
+            background: #1f2937;
+        }
+
+
+        .export-button:active {
+
+            transform: scale(0.98);
+        }
+
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
+        @media (max-width: 700px) {
+
+            .header {
+
+                padding: 0 18px;
+            }
+
+
+            .header-left {
+
+                font-size: 19px;
+            }
+
+
+            .header-right {
+
+                font-size: 15px;
+            }
+
+
+            .page {
+
+                padding: 20px 12px 40px;
+            }
+
+
+            .main-panel {
+
+                padding: 22px 18px;
+            }
+
+
+            h1 {
+
+                font-size: 24px;
+            }
+
+
+            .format-options {
+
+                gap: 16px;
+
+                flex-direction: column;
+            }
+
+
+            .category-toggle {
+
+                width: 100%;
+
+                justify-content: center;
+            }
+
+
+            .table-container {
+
+                border-radius: 8px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="header">
+
+        <div class="header-left">
+            ChronoLive
+        </div>
+
+
+        <div class="header-right">
+            {{ course_nom }}
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONTENU
+         ===================================================== -->
+
+    <main class="page">
+
+        <section class="main-panel">
+
+            <h1>
+                Export des résultats
+            </h1>
+
+
+            <!-- =================================================
+                 TYPE DE CLASSEMENT
+                 ================================================= -->
+
+            <div class="control-group">
+
+                <label
+                    class="control-label"
+                    for="typeClassement"
+                >
+                    Type de classement
+                </label>
+
+
+                <select
+                    id="typeClassement"
+                >
+
+                    <option
+                        value="scratch"
+                        {% if type_classement == "scratch" %}
+                        selected
+                        {% endif %}
+                    >
+                        Scratch
+                    </option>
+
+
+                    <option
+                        value="categorie"
+                        {% if type_classement in [
+                            "categorie",
+                            "categorie_ffc"
+                        ] %}
+                        selected
+                        {% endif %}
+                    >
+                        Catégorie
+                    </option>
+
+
+                    <option
+                        value="sexe"
+                        {% if type_classement == "sexe" %}
+                        selected
+                        {% endif %}
+                    >
+                        Sexe
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- =================================================
+                 MODE CATEGORIE
+                 ================================================= -->
+
+            <div
+                class="control-group"
+                id="modeCategorieContainer"
+                {% if type_classement not in [
+                    "categorie",
+                    "categorie_ffc"
+                ] %}
+                style="display: none;"
+                {% endif %}
+            >
+
+                <div class="control-label">
+                    Type de catégorie
+                </div>
+
+
+                <div class="category-toggle">
+
+                    <span
+                        class="toggle-label"
+                        id="labelCategorie"
+                    >
+                        Catégorie
+                    </span>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="modeFfc"
+                            {% if type_classement == "categorie_ffc" %}
+                            checked
+                            {% endif %}
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+
+                    <span
+                        class="toggle-label"
+                        id="labelCategorieFfc"
+                    >
+                        Catégorie FFC
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SELECTION
+                 ================================================= -->
+
+            <div
+                class="control-group"
+                id="valeurContainer"
+                {% if type_classement == "scratch" %}
+                style="display: none;"
+                {% endif %}
+            >
+
+                <label
+                    class="control-label"
+                    for="valeurClassement"
+                >
+                    {% if type_classement == "categorie_ffc" %}
+                        Catégorie FFC
+                    {% elif type_classement == "categorie" %}
+                        Catégorie
+                    {% elif type_classement == "sexe" %}
+                        Sexe
+                    {% else %}
+                        Sélection
+                    {% endif %}
+                </label>
+
+
+                <select
+                    id="valeurClassement"
+                >
+
+                    {% if type_classement == "categorie" %}
+
+                        <option
+                            value=""
+                            {% if not valeur %}
+                            selected
+                            {% endif %}
+                        >
+                            Toutes les catégories
+                        </option>
+
+
+                        {% for categorie in categories %}
+
+                            <option
+                                value="{{ categorie }}"
+                                {% if valeur == categorie %}
+                                selected
+                                {% endif %}
+                            >
+                                {{ categorie }}
+                            </option>
+
+                        {% endfor %}
+
+                    {% elif type_classement == "categorie_ffc" %}
+
+                        <option
+                            value=""
+                            {% if not valeur %}
+                            selected
+                            {% endif %}
+                        >
+                            Toutes les catégories FFC
+                        </option>
+
+
+                        {% for categorie_ffc in categories_ffc %}
+
+                            <option
+                                value="{{ categorie_ffc }}"
+                                {% if valeur == categorie_ffc %}
+                                selected
+                                {% endif %}
+                            >
+                                {{ categorie_ffc }}
+                            </option>
+
+                        {% endfor %}
+
+                    {% elif type_classement == "sexe" %}
+
+                        <option
+                            value="M"
+                            {% if valeur == "M" %}
+                            selected
+                            {% endif %}
+                        >
+                            Hommes
+                        </option>
+
+
+                        <option
+                            value="F"
+                            {% if valeur == "F" %}
+                            selected
+                            {% endif %}
+                        >
+                            Femmes
+                        </option>
+
+                    {% endif %}
+
+                </select>
+
+            </div>
+
+
+            <!-- =================================================
+                 FORMAT
+                 ================================================= -->
+
+            <div class="control-group">
+
+                <div class="control-label">
+                    Format
+                </div>
+
+
+                <div class="format-options">
+
+                    <label class="format-option">
+
+                        <input
+                            type="radio"
+                            name="format"
+                            value="pdf"
+                            checked
+                        >
+
+                        <span>
+                            PDF
+                        </span>
+
+                    </label>
+
+
+                    <label class="format-option">
+
+                        <input
+                            type="radio"
+                            name="format"
+                            value="png"
+                        >
+
+                        <span>
+                            PNG
+                        </span>
+
+                    </label>
+
+
+                    <label class="format-option">
+
+                        <input
+                            type="radio"
+                            name="format"
+                            value="excel"
+                        >
+
+                        <span>
+                            Excel
+                        </span>
+
+                    </label>
+
+
+                    <label class="format-option">
+
+                        <input
+                            type="radio"
+                            name="format"
+                            value="csv"
+                        >
+
+                        <span>
+                            CSV
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 APERCU
+                 ================================================= -->
+
+            <div class="control-group">
+
+                <div class="preview-title">
+                    Aperçu
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Pos.
+                                </th>
+
+                                <th>
+                                    Dossard
+                                </th>
+
+                                <th>
+                                    Coureur
+                                </th>
+
+                                <th>
+                                    Sexe
+                                </th>
+
+                                <th>
+                                    Catégorie
+                                </th>
+
+                                <th>
+                                    Temps
+                                </th>
+
+                                <th>
+                                    Écart
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% if resultat %}
+
+                                {% for coureur in resultat %}
+
+                                    <tr>
+
+                                        <td>
+                                            {{ coureur.position }}
+                                        </td>
+
+
+                                        <td>
+                                            #{{ coureur.dossard }}
+                                        </td>
+
+
+                                        <td>
+                                            {{ coureur.nom }}
+                                            {{ coureur.prenom }}
+                                        </td>
+
+
+                                        <td>
+                                            {{ coureur.sexe }}
+                                        </td>
+
+
+                                        <td>
+
+                                            {% if type_classement == "categorie_ffc" %}
+
+                                                {{ coureur.categorie_ffc }}
+
+                                            {% else %}
+
+                                                {{ coureur.categorie }}
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <td>
+                                            {{
+                                                formater_temps(
+                                                    coureur.temps_centisecondes
+                                                )
+                                            }}
+                                        </td>
+
+
+                                        <td>
+
+                                            {% if coureur.ecart_centisecondes == 0 %}
+
+                                                -
+
+                                            {% else %}
+
+                                                +{{
+                                                    formater_temps(
+                                                        coureur.ecart_centisecondes
+                                                    )
+                                                }}
+
+                                            {% endif %}
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                <tr>
+
+                                    <td
+                                        colspan="7"
+                                        class="empty-row"
+                                    >
+                                        Aucun résultat
+                                    </td>
+
+                                </tr>
+
+                            {% endif %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 EXPORT
+                 ================================================= -->
+
+            <div class="export-container">
+
+                <button
+                    type="button"
+                    class="export-button"
+                    id="exportButton"
+                >
+                    Exporter
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script>
+
+        const typeClassement =
+            document.getElementById(
+                "typeClassement"
+            );
+
+
+        const modeCategorieContainer =
+            document.getElementById(
+                "modeCategorieContainer"
+            );
+
+
+        const modeFfc =
+            document.getElementById(
+                "modeFfc"
+            );
+
+
+        const labelCategorie =
+            document.getElementById(
+                "labelCategorie"
+            );
+
+
+        const labelCategorieFfc =
+            document.getElementById(
+                "labelCategorieFfc"
+            );
+
+
+        const valeurContainer =
+            document.getElementById(
+                "valeurContainer"
+            );
+
+
+        const valeurClassement =
+            document.getElementById(
+                "valeurClassement"
+            );
+
+
+        /* =====================================================
+           STYLE DES LABELS
+           ===================================================== */
+
+        function mettreAJourLabels() {
+
+            if (modeFfc.checked) {
+
+                labelCategorie.style.color =
+                    "#6b7280";
+
+                labelCategorieFfc.style.color =
+                    "#111827";
+
+            } else {
+
+                labelCategorie.style.color =
+                    "#111827";
+
+                labelCategorieFfc.style.color =
+                    "#6b7280";
+            }
+        }
+
+
+        /* =====================================================
+           TYPE EFFECTIF
+           ===================================================== */
+
+        function obtenirTypeClassement() {
+
+            if (
+                typeClassement.value
+                === "categorie"
+            ) {
+
+                if (modeFfc.checked) {
+
+                    return "categorie_ffc";
+                }
+
+                return "categorie";
+            }
+
+
+            return typeClassement.value;
+        }
+
+
+        /* =====================================================
+           RECHARGEMENT DE LA PAGE
+           ===================================================== */
+
+        function mettreAJourPage() {
+
+            const type =
+                typeClassement.value;
+
+
+            const params =
+                new URLSearchParams();
+
+
+            if (
+                type === "categorie"
+            ) {
+
+                if (modeFfc.checked) {
+
+                    params.set(
+                        "type",
+                        "categorie_ffc"
+                    );
+
+                } else {
+
+                    params.set(
+                        "type",
+                        "categorie"
+                    );
+                }
+
+            } else {
+
+                params.set(
+                    "type",
+                    type
+                );
+            }
+
+
+            if (
+                type !== "scratch"
+                && valeurClassement.value
+            ) {
+
+                params.set(
+                    "valeur",
+                    valeurClassement.value
+                );
+            }
+
+
+            window.location.href =
+                "/resultats?"
+                + params.toString();
+        }
+
+
+        /* =====================================================
+           CHANGEMENT DU TYPE
+           ===================================================== */
+
+        typeClassement.addEventListener(
+            "change",
+            function() {
+
+                const type =
+                    typeClassement.value;
+
+
+                if (
+                    type === "scratch"
+                ) {
+
+                    window.location.href =
+                        "/resultats?type=scratch";
+
+                    return;
+                }
+
+
+                if (
+                    type === "sexe"
+                ) {
+
+                    window.location.href =
+                        "/resultats?type=sexe&valeur=M";
+
+                    return;
+                }
+
+
+                modeFfc.checked =
+                    false;
+
+                mettreAJourLabels();
+
+
+                window.location.href =
+                    "/resultats?type=categorie";
+            }
+        );
+
+
+        /* =====================================================
+           CHANGEMENT CATEGORIE / FFC
+           ===================================================== */
+
+        modeFfc.addEventListener(
+            "change",
+            function() {
+
+                mettreAJourLabels();
+
+                mettreAJourPage();
+            }
+        );
+
+
+        /* =====================================================
+           CHANGEMENT DE CATEGORIE
+           ===================================================== */
+
+        valeurClassement.addEventListener(
+            "change",
+            function() {
+
+                mettreAJourPage();
+            }
+        );
+
+
+        /* =====================================================
+           EXPORT
+           ===================================================== */
+
+        document
+            .getElementById(
+                "exportButton"
+            )
+            .addEventListener(
+                "click",
+                function() {
+
+                    const type =
+                        obtenirTypeClassement();
+
+
+                    const valeur =
+                        valeurClassement.value;
+
+
+                    const format =
+                        document.querySelector(
+                            'input[name="format"]:checked'
+                        ).value;
+
+
+                    const params =
+                        new URLSearchParams();
+
+
+                    params.set(
+                        "type",
+                        type
+                    );
+
+
+                    if (
+                        type !== "scratch"
+                        && valeur
+                    ) {
+
+                        params.set(
+                            "valeur",
+                            valeur
+                        );
+                    }
+
+
+                    params.set(
+                        "format",
+                        format
+                    );
+
+
+                    window.location.href =
+                        "/export_resultats?"
+                        + params.toString();
+                }
+            );
+
+
+        /* =====================================================
+           INITIALISATION
+           ===================================================== */
+
+        mettreAJourLabels();
+
+    </script>
+
+</body>
+
+</html>
+

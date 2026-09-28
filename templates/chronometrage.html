@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        ChronoLive - Chronométrage
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            margin: 0;
+
+            width: 100%;
+            height: 100%;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #081a2f;
+            color: #f8fafc;
+
+            overflow: hidden;
+        }
+
+
+        /* ==========================================
+           HEADER
+        ========================================== */
+
+        header {
+
+            height: 70px;
+
+            padding: 0 30px;
+
+            background: #0c2138;
+
+            border-bottom:
+                1px solid #23405e;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .header-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+        }
+
+
+        .logo {
+
+            font-size: 24px;
+
+            font-weight: 700;
+
+            letter-spacing: -0.5px;
+        }
+
+
+        .course {
+
+            padding-left: 18px;
+
+            border-left:
+                1px solid #35506c;
+        }
+
+
+        .course-name {
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+
+        .course-location {
+
+            margin-top: 3px;
+
+            font-size: 13px;
+
+            color: #93a4b8;
+        }
+
+
+        .status {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            color: #34d399;
+
+            font-size: 13px;
+        }
+
+
+        .status-dot {
+
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+
+            background: #34d399;
+        }
+
+
+        /* ==========================================
+           PAGE
+        ========================================== */
+
+        .page {
+
+            height: calc(100vh - 70px);
+
+            padding: 20px 24px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 20px;
+        }
+
+
+        /* ==========================================
+           HORLOGE
+        ========================================== */
+
+        .clock-panel {
+
+            flex: 0 0 auto;
+
+            text-align: center;
+
+            padding: 10px 0 20px 0;
+        }
+
+
+        #clock {
+
+            font-size:
+                clamp(
+                    60px,
+                    8vw,
+                    110px
+                );
+
+            line-height: 1;
+
+            font-weight: 700;
+
+            letter-spacing:
+                2px;
+
+            font-variant-numeric:
+                tabular-nums;
+
+            color: #ffffff;
+        }
+
+
+        .clock-centiseconds {
+
+            color: #3b9cf6;
+        }
+
+
+        .arrival-form {
+
+            margin-top: 22px;
+        }
+
+
+        .arrival-button {
+
+            min-width: 300px;
+
+            padding: 18px 45px;
+
+            border-radius: 12px;
+
+            border: none;
+
+            background: #20c779;
+
+            color: white;
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 24px
+                rgba(32, 199, 121, 0.20);
+        }
+
+
+        .arrival-button:hover {
+
+            background: #18b66c;
+        }
+
+
+        .arrival-button:active {
+
+            transform: scale(0.98);
+        }
+
+
+        /* ==========================================
+           PANELS
+        ========================================== */
+
+        .panels {
+
+            min-height: 0;
+
+            flex: 1;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1.1fr;
+
+            gap: 18px;
+        }
+
+
+        .panel {
+
+            min-width: 0;
+
+            min-height: 0;
+
+            display: flex;
+
+            flex-direction: column;
+
+            background: #0d2540;
+
+            border:
+                1px solid #234663;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+        }
+
+
+        .panel-header {
+
+            flex: 0 0 auto;
+
+            padding: 16px 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content:
+                space-between;
+
+            border-bottom:
+                1px solid #203e5a;
+        }
+
+
+        .panel-title {
+
+            margin: 0;
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+
+        .count {
+
+            padding: 5px 10px;
+
+            border-radius: 7px;
+
+            background: #15538a;
+
+            color: #b9ddff;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .count-green {
+
+            background: #0b694b;
+
+            color: #a7f3d0;
+        }
+
+
+        /* ==========================================
+           TABLES
+        ========================================== */
+
+        .table-container {
+
+            flex: 1;
+
+            min-height: 0;
+
+            overflow: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+
+        th {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 2;
+
+            padding: 11px 14px;
+
+            background: #102c49;
+
+            color: #91a7bd;
+
+            font-size: 11px;
+
+            text-align: left;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.03em;
+        }
+
+
+        td {
+
+            padding: 12px 14px;
+
+            border-bottom:
+                1px solid #173651;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+        }
+
+
+        tr:last-child td {
+
+            border-bottom: none;
+        }
+
+
+        tr:hover td {
+
+            background: #102e4b;
+        }
+
+
+        .timestamp {
+
+            font-variant-numeric:
+                tabular-nums;
+
+            font-weight: 600;
+        }
+
+
+        .time {
+
+            font-variant-numeric:
+                tabular-nums;
+
+            font-weight: 700;
+
+            color: #ffffff;
+        }
+
+
+        .bib {
+
+            font-weight: 700;
+
+            color: #ffffff;
+        }
+
+
+        .category {
+
+            display: inline-block;
+
+            padding: 4px 8px;
+
+            border-radius: 6px;
+
+            background: #244d77;
+
+            color: #c5e2ff;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        /* ==========================================
+           ASSOCIATION
+        ========================================== */
+
+        .associate-form {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+        }
+
+
+        .associate-form input {
+
+            width: 100px;
+
+            padding: 8px 9px;
+
+            border:
+                1px solid #365675;
+
+            border-radius: 7px;
+
+            background: #081c31;
+
+            color: white;
+
+            font-size: 13px;
+
+            text-align: center;
+        }
+
+
+        .associate-form input:focus {
+
+            outline: none;
+
+            border-color: #2589e8;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(37, 137, 232, 0.15);
+        }
+
+
+        .associate-form button {
+
+            padding: 8px 12px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #2589e8;
+
+            color: white;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .associate-form button:hover {
+
+            background: #1879d4;
+        }
+
+
+        .delete-form {
+
+            display: inline;
+        }
+
+
+        .delete-button {
+
+            padding: 8px 12px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #9f3040;
+
+            color: white;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .delete-button:hover {
+
+            background: #bd3548;
+        }
+
+
+        .empty {
+
+            padding: 35px;
+
+            text-align: center;
+
+            color: #71869b;
+
+            font-size: 14px;
+        }
+
+
+        /* ==========================================
+           POPUP ERREUR
+        ========================================== */
+
+        .error-popup {
+
+            position: fixed;
+
+            top: 50%;
+            left: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            z-index: 1000;
+
+            min-width: 320px;
+
+            max-width: 450px;
+
+            padding: 24px;
+
+            background: #102c49;
+
+            border:
+                1px solid #3b5d7d;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0, 0, 0, 0.45);
+
+            text-align: center;
+        }
+
+
+        .error-popup-title {
+
+            margin-bottom: 10px;
+
+            font-size: 19px;
+
+            font-weight: 700;
+
+            color: #ffffff;
+        }
+
+
+        .error-popup-message {
+
+            margin-bottom: 20px;
+
+            color: #b9c7d6;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        .error-popup-button {
+
+            padding: 9px 25px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #2589e8;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .error-popup-button:hover {
+
+            background: #1879d4;
+        }
+
+
+        .error-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 999;
+
+            background:
+                rgba(0, 0, 0, 0.45);
+        }
+
+
+        /* ==========================================
+           FOOTER
+        ========================================== */
+
+        .footer {
+
+            flex: 0 0 auto;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            color: #7f94a9;
+
+            font-size: 12px;
+        }
+
+
+        .footer-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .footer-dot {
+
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+        }
+
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 1100px) {
+
+            html,
+            body {
+
+                overflow: auto;
+            }
+
+
+            .page {
+
+                height: auto;
+            }
+
+
+            .panels {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .panel {
+
+                min-height: 400px;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            header {
+
+                padding:
+                    0 15px;
+            }
+
+
+            .status {
+
+                display: none;
+            }
+
+
+            .course {
+
+                display: none;
+            }
+
+
+            .page {
+
+                padding:
+                    15px;
+            }
+
+
+            .arrival-button {
+
+                min-width: 240px;
+
+                font-size: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-left">
+
+        <div class="logo">
+            ChronoLive
+        </div>
+
+
+        <div class="course">
+
+            <div class="course-name">
+                {{ course_nom }}
+            </div>
+
+
+            <div class="course-location">
+
+                {% if course_lieu %}
+                    {{ course_lieu }}
+                {% endif %}
+
+                {% if course_date %}
+
+                    {% if course_lieu %}
+                        ·
+                    {% endif %}
+
+                    {{ course_date.strftime("%d/%m/%Y") }}
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="status">
+
+        <span class="status-dot"></span>
+
+        Système opérationnel
+
+    </div>
+
+</header>
+
+
+
+<div class="page">
+
+
+    <!-- ==================================================
+         HORLOGE
+    ================================================== -->
+
+    <div class="clock-panel">
+
+
+        <div id="clock">
+            00:00:00<span class="clock-centiseconds">.00</span>
+        </div>
+
+
+        <form
+            class="arrival-form"
+            method="POST"
+            action="{{ url_for('enregistrer_arrivee') }}"
+        >
+
+            <button
+                type="submit"
+                class="arrival-button"
+            >
+                🏁 ARRIVÉE
+            </button>
+
+        </form>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         PANELS
+    ================================================== -->
+
+    <div class="panels">
+
+
+        <!-- ==================================================
+             ARRIVEES EN ATTENTE
+        ================================================== -->
+
+        <div class="panel">
+
+
+            <div class="panel-header">
+
+                <h2 class="panel-title">
+                    Arrivées à associer
+                </h2>
+
+
+                <span class="count">
+
+                    {{ arrivees_en_attente|length }}
+
+                    en attente
+
+                </span>
+
+            </div>
+
+
+            <div class="table-container">
+
+
+                {% if arrivees_en_attente %}
+
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Heure
+                            </th>
+
+                            <th>
+                                Dossard
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    {% for arrivee in arrivees_en_attente %}
+
+
+                    <tr>
+
+
+                        <td class="timestamp">
+
+                            {{ arrivee.timestamp }}
+
+                        </td>
+
+
+                        <td>
+
+
+                            <form
+                                method="POST"
+                                class="associate-form"
+                                action="{{ url_for(
+                                    'associer_arrivee',
+                                    arrivee_id=arrivee.id
+                                ) }}"
+                            >
+
+                                <input
+                                    type="text"
+                                    name="dossard"
+                                    placeholder="Dossard"
+                                    inputmode="numeric"
+                                    autocomplete="off"
+                                    required
+                                >
+
+                                <button
+                                    type="submit"
+                                >
+                                    Associer
+                                </button>
+
+                            </form>
+
+
+                        </td>
+
+
+                        <td>
+
+
+                            <form
+                                method="POST"
+                                class="delete-form"
+                                action="{{ url_for(
+                                    'supprimer_arrivee',
+                                    arrivee_id=arrivee.id
+                                ) }}"
+                                onsubmit="
+                                    return confirm(
+                                        'Supprimer cette arrivée ?'
+                                    );
+                                "
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="delete-button"
+                                >
+                                    Supprimer
+                                </button>
+
+                            </form>
+
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+
+                {% else %}
+
+
+                <div class="empty">
+
+                    Aucune arrivée en attente.
+
+                </div>
+
+
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             ARRIVEES ASSOCIEES
+        ================================================== -->
+
+        <div class="panel">
+
+
+            <div class="panel-header">
+
+                <h2 class="panel-title">
+                    Arrivées associées
+                </h2>
+
+
+                <span
+                    class="count count-green"
+                >
+
+                    {{ arrivees_associees|length }}
+
+                    arrivées
+
+                </span>
+
+            </div>
+
+
+            <div class="table-container">
+
+
+                {% if arrivees_associees %}
+
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Dossard
+                            </th>
+
+                            <th>
+                                Nom
+                            </th>
+
+                            <th>
+                                Cat.
+                            </th>
+
+                            <th>
+                                Départ
+                            </th>
+
+                            <th>
+                                Arrivée
+                            </th>
+
+                            <th>
+                                Temps
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    {% for arrivee in arrivees_associees %}
+
+
+                    <tr>
+
+
+                        <td class="bib">
+
+                            #{{ arrivee.dossard }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ arrivee.nom }}
+                            {{ arrivee.prenom }}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="category">
+
+                                {{ arrivee.categorie }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td class="timestamp">
+
+                            {{ arrivee.heure_depart }}
+
+                        </td>
+
+
+                        <td class="timestamp">
+
+                            {{ arrivee.timestamp }}
+
+                        </td>
+
+
+                        <td class="time">
+
+                            {{ arrivee.temps }}
+
+                        </td>
+
+
+                        <td>
+
+
+                            <form
+                                method="POST"
+                                class="delete-form"
+                                action="{{ url_for(
+                                    'supprimer_arrivee',
+                                    arrivee_id=arrivee.id
+                                ) }}"
+                                onsubmit="
+                                    return confirm(
+                                        'Supprimer cette arrivée ?'
+                                    );
+                                "
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="delete-button"
+                                >
+                                    Supprimer
+                                </button>
+
+                            </form>
+
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+
+                {% else %}
+
+
+                <div class="empty">
+
+                    Aucune arrivée associée.
+
+                </div>
+
+
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         FOOTER
+    ================================================== -->
+
+    <div class="footer">
+
+
+        <div class="footer-left">
+
+            <span class="footer-dot"></span>
+
+            ChronoLive · Module Chronométrage
+
+        </div>
+
+
+        <div>
+
+            Base locale · Chronométrage actif
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     POPUP ERREUR
+================================================== -->
+
+{% if request.args.get("erreur") %}
+
+<div
+    class="error-overlay"
+    onclick="fermerErreur()"
+></div>
+
+
+<div
+    class="error-popup"
+    role="alertdialog"
+    aria-modal="true"
+>
+
+    <div class="error-popup-title">
+        ⚠️ Erreur
+    </div>
+
+
+    <div class="error-popup-message">
+
+        {{ request.args.get("erreur") }}
+
+    </div>
+
+
+    <button
+        type="button"
+        class="error-popup-button"
+        onclick="fermerErreur()"
+    >
+        OK
+    </button>
+
+</div>
+
+{% endif %}
+
+
+
+<script>
+
+/* ==========================================================
+   HORLOGE
+========================================================== */
+
+function updateClock() {
+
+    const now =
+        new Date();
+
+
+    const hours =
+        String(
+            now.getHours()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const minutes =
+        String(
+            now.getMinutes()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const seconds =
+        String(
+            now.getSeconds()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const centiseconds =
+        String(
+            Math.floor(
+                now.getMilliseconds() / 10
+            )
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    document.getElementById(
+        "clock"
+    ).innerHTML = `
+
+        ${hours}:${minutes}:${seconds}
+
+        <span class="clock-centiseconds">
+            .${centiseconds}
+        </span>
+
+    `;
+
+}
+
+
+setInterval(
+    updateClock,
+    10
+);
+
+
+updateClock();
+
+
+/* ==========================================================
+   POPUP ERREUR
+========================================================== */
+
+function fermerErreur() {
+
+    const popup =
+        document.querySelector(
+            ".error-popup"
+        );
+
+    const overlay =
+        document.querySelector(
+            ".error-overlay"
+        );
+
+
+    if (popup) {
+
+        popup.remove();
+
+    }
+
+
+    if (overlay) {
+
+        overlay.remove();
+
+    }
+
+}
+
+
+/* Fermer avec la touche Échap */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+
+            fermerErreur();
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

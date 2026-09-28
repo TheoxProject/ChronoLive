@@ -1,0 +1,2833 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        ChronoLive - {{ course_nom }}
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            margin: 0;
+
+            width: 100%;
+            height: 100%;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f4f6f8;
+            color: #1f2937;
+
+            overflow: hidden;
+        }
+
+
+        /* ==========================================
+           HEADER
+        ========================================== */
+
+        header {
+            height: 64px;
+
+            background: #111827;
+            color: white;
+
+            padding: 0 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .header-left {
+            display: flex;
+            align-items: center;
+
+            gap: 18px;
+        }
+
+
+        header h1 {
+            margin: 0;
+
+            font-size: 22px;
+        }
+
+
+        .course-name {
+            padding-left: 18px;
+
+            border-left:
+                1px solid #374151;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            color: #e5e7eb;
+        }
+
+
+        .header-right {
+            color: #9ca3af;
+
+            font-size: 13px;
+
+            white-space: nowrap;
+        }
+
+
+        /* ==========================================
+           PAGE
+        ========================================== */
+
+        .page {
+            height:
+                calc(100vh - 64px);
+
+            padding:
+                20px 25px;
+
+            max-width: 1800px;
+
+            margin: 0 auto;
+        }
+
+
+        .layout {
+            height: 100%;
+
+            display: grid;
+
+            grid-template-columns:
+                360px minmax(0, 1fr);
+
+            gap: 20px;
+
+            align-items: stretch;
+        }
+
+
+        /* ==========================================
+           CARDS
+        ========================================== */
+
+        .card {
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.06);
+        }
+
+
+        .form-card {
+            overflow-y: auto;
+        }
+
+
+        .table-card {
+            min-width: 0;
+            min-height: 0;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .card h2 {
+            margin: 0 0 20px 0;
+
+            font-size: 20px;
+        }
+
+
+        /* ==========================================
+           FORMULAIRE
+        ========================================== */
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #374151;
+        }
+
+
+        input,
+        select {
+            width: 100%;
+
+            padding: 10px 12px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            background: white;
+
+            font-size: 14px;
+        }
+
+
+        input:focus,
+        select:focus {
+
+            outline: none;
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.12);
+        }
+
+
+        .form-row {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 12px;
+        }
+
+
+        /* ==========================================
+           BOUTONS
+        ========================================== */
+
+        button {
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding:
+                9px 13px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                opacity 0.15s,
+                transform 0.05s;
+        }
+
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+
+        button:active {
+            transform:
+                scale(0.98);
+        }
+
+
+        .btn-primary {
+
+            width: 100%;
+
+            padding: 11px;
+
+            background: #2563eb;
+
+            color: white;
+        }
+
+
+        .btn-edit {
+
+            background: #e5e7eb;
+
+            color: #374151;
+        }
+
+
+        .btn-save {
+
+            background: #16a34a;
+
+            color: white;
+        }
+
+
+        .btn-cancel {
+
+            background: #e5e7eb;
+
+            color: #374151;
+        }
+
+
+        .btn-delete {
+
+            background: #fee2e2;
+
+            color: #dc2626;
+        }
+
+
+        /* ==========================================
+           HEADER DU TABLEAU
+        ========================================== */
+
+        .table-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            margin-bottom: 15px;
+
+            flex-shrink: 0;
+        }
+
+
+        .table-header-title {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 10px;
+        }
+
+
+        .table-header-title-content {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 4px;
+        }
+
+
+        .table-header h2 {
+            margin: 0;
+        }
+
+
+        .inscription-count {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-width: 30px;
+
+            height: 26px;
+
+            padding: 0 9px;
+
+            border-radius: 999px;
+
+            background: #eef2ff;
+
+            color: #3730a3;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .ready-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 12px;
+
+            color: #6b7280;
+        }
+
+
+        .ready-count {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-width: 28px;
+
+            height: 22px;
+
+            padding: 0 7px;
+
+            border-radius: 999px;
+
+            background: #edf4ef;
+
+            color: #5b8e73;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        /* ==========================================
+           FILTRES + RECHERCHE
+        ========================================== */
+
+        .filters {
+
+            display: flex;
+
+            align-items: flex-end;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .filter-container {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+        }
+
+
+        .filter-container label {
+
+            margin: 0;
+
+            font-size: 11px;
+
+            text-transform:
+                uppercase;
+
+            color: #6b7280;
+        }
+
+
+        .filter-container select {
+
+            width: 140px;
+
+            padding:
+                9px 10px;
+
+            font-size: 13px;
+        }
+
+
+        .search-container {
+
+            position: relative;
+
+            width: 300px;
+
+            flex-shrink: 0;
+        }
+
+
+        .search-container input {
+
+            padding-left: 38px;
+        }
+
+
+        .search-icon {
+
+            position: absolute;
+
+            left: 13px;
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            color: #9ca3af;
+
+            pointer-events: none;
+        }
+
+
+        /* ==========================================
+           TABLEAU
+        ========================================== */
+
+        .table-container {
+
+            flex: 1;
+
+            min-height: 0;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+
+        .table-scroll {
+
+            width: 100%;
+            height: 100%;
+
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 1250px;
+        }
+
+
+        thead {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 5;
+        }
+
+
+        th {
+
+            position: sticky;
+
+            top: 0;
+
+            background: #f3f4f6;
+
+            color: #4b5563;
+
+            font-size: 11px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.03em;
+
+            text-align: left;
+
+            padding:
+                11px 10px;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            white-space: nowrap;
+
+            user-select: none;
+        }
+
+
+        th.sortable {
+
+            cursor: pointer;
+        }
+
+
+        th.sortable:hover {
+
+            background: #e5e7eb;
+        }
+
+
+        .th-content {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+        }
+
+
+        .sort-icon {
+
+            color: #9ca3af;
+
+            font-size: 12px;
+
+            min-width: 10px;
+        }
+
+
+        th.sort-asc .sort-icon,
+        th.sort-desc .sort-icon {
+
+            color: #2563eb;
+        }
+
+
+        td {
+
+            padding:
+                9px 10px;
+
+            border-bottom:
+                1px solid #f0f0f0;
+
+            font-size: 13px;
+
+            white-space: nowrap;
+
+            vertical-align: middle;
+        }
+
+
+        tbody tr:hover {
+
+            background: #f9fafb;
+        }
+
+
+        /* ==========================================
+           EDITION DANS LE TABLEAU
+        ========================================== */
+
+        .edit-input,
+        .edit-select {
+
+            width: 100%;
+
+            padding:
+                7px 8px;
+
+            font-size: 12px;
+
+            border:
+                1px solid #93c5fd;
+
+            border-radius: 6px;
+        }
+
+
+        .edit-input:focus,
+        .edit-select:focus {
+
+            outline: none;
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(37, 99, 235, 0.10);
+        }
+
+
+        /* ==========================================
+           BADGE
+        ========================================== */
+
+        .badge {
+
+            display: inline-block;
+
+            padding:
+                4px 8px;
+
+            border-radius: 6px;
+
+            background: #eef2ff;
+
+            color: #3730a3;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        .badge-ffc {
+
+            display: inline-block;
+
+            padding:
+                4px 8px;
+
+            border-radius: 6px;
+
+            background: #f3f4f6;
+
+            color: #4b5563;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        .bib {
+
+            font-weight: 700;
+        }
+
+
+        /* ==========================================
+           ACTIONS
+        ========================================== */
+
+        .actions {
+
+            display: flex;
+
+            gap: 5px;
+        }
+
+
+        .actions button {
+
+            min-width: 34px;
+        }
+
+
+        .delete-form {
+
+            display: inline;
+
+            margin: 0;
+        }
+
+
+        /* ==========================================
+           AUCUN RESULTAT
+        ========================================== */
+
+        .no-results {
+
+            display: none;
+
+            text-align: center;
+
+            padding: 30px;
+
+            color: #9ca3af;
+        }
+
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 1200px) {
+
+            .filters {
+                flex-wrap: wrap;
+            }
+
+        }
+
+
+        @media (max-width: 1100px) {
+
+            html,
+            body {
+                overflow: auto;
+            }
+
+
+            .page {
+
+                height: auto;
+            }
+
+
+            .layout {
+
+                height: auto;
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .form-card {
+
+                overflow: visible;
+            }
+
+
+            .table-card {
+
+                min-height: 650px;
+            }
+
+
+            .table-scroll {
+
+                height: 600px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            header {
+
+                padding:
+                    0 18px;
+            }
+
+
+            .page {
+
+                padding:
+                    15px 12px;
+            }
+
+
+            .card {
+
+                padding:
+                    18px;
+            }
+
+
+            .form-row {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .table-header {
+
+                flex-direction:
+                    column;
+
+                align-items:
+                    stretch;
+            }
+
+
+            .table-header-title {
+
+                justify-content:
+                    flex-start;
+            }
+
+
+            .filters {
+
+                display: grid;
+
+                grid-template-columns:
+                    1fr 1fr;
+
+                width: 100%;
+            }
+
+
+            .filter-container select,
+            .search-container {
+
+                width: 100%;
+            }
+
+
+            .search-container {
+
+                grid-column:
+                    1 / -1;
+            }
+
+
+            .course-name,
+            .header-right {
+
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ======================================================
+     HEADER
+======================================================= -->
+
+<header>
+
+    <div class="header-left">
+
+        <h1>
+            ChronoLive
+        </h1>
+
+
+        <div class="course-name">
+            {{ course_nom }}
+        </div>
+
+    </div>
+
+
+    <div class="header-right">
+
+        {% if course_lieu %}
+
+            {{ course_lieu }}
+
+        {% endif %}
+
+
+        {% if course_date %}
+
+            {% if course_lieu %}
+                ·
+            {% endif %}
+
+            {{ course_date.strftime("%d/%m/%Y") }}
+
+        {% endif %}
+
+    </div>
+
+</header>
+
+
+<div class="page">
+
+    <div class="layout">
+
+
+        <!-- ==================================================
+             INSCRIPTION
+        ================================================== -->
+
+        <div class="card form-card">
+
+            <h2>
+                Inscrire un coureur
+            </h2>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('ajouter_coureur') }}"
+            >
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="prenom">
+                            Prénom
+                        </label>
+
+                        <input
+                            type="text"
+                            id="prenom"
+                            name="prenom"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="nom">
+                            Nom
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nom"
+                            name="nom"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="licence">
+                        Licence
+                    </label>
+
+                    <input
+                        type="text"
+                        id="licence"
+                        name="licence"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="club">
+                        Club
+                    </label>
+
+                    <input
+                        type="text"
+                        id="club"
+                        name="club"
+                    >
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="sexe">
+                            Sexe
+                        </label>
+
+                        <select
+                            id="sexe"
+                            name="sexe"
+                            required
+                        >
+
+                            <option value="">
+                                -- Sélectionner --
+                            </option>
+
+                            <option value="M">
+                                Homme
+                            </option>
+
+                            <option value="F">
+                                Femme
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="date_naissance">
+                            Naissance
+                        </label>
+
+                        <input
+                            type="date"
+                            id="date_naissance"
+                            name="date_naissance"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="categorie">
+                        Catégorie
+                    </label>
+
+                    <select
+                        id="categorie"
+                        name="categorie"
+                        required
+                    >
+
+                        <option value="">
+                            -- Sélectionner --
+                        </option>
+
+
+                        {% for categorie in categories %}
+
+                        <option value="{{ categorie }}">
+                            {{ categorie }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="categorie_ffc">
+                        Catégorie FFC
+                    </label>
+
+                    <select
+                        id="categorie_ffc"
+                        name="categorie_ffc"
+                    >
+
+                        <option value="">
+                            -- Aucune --
+                        </option>
+
+
+                        {% for categorie_ffc in categories_ffc %}
+
+                        <option value="{{ categorie_ffc }}">
+                            {{ categorie_ffc }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+                    + Inscrire le coureur
+                </button>
+
+
+            </form>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             TABLEAU
+        ================================================== -->
+
+        <div class="card table-card">
+
+
+            <div class="table-header">
+
+
+                <div class="table-header-title">
+
+                    <div class="table-header-title-content">
+
+                        <h2>
+                            Coureurs inscrits
+                        </h2>
+
+
+                        <div class="ready-info">
+
+                            <span>
+                                Prêts au départ
+                            </span>
+
+
+                            <span
+                                id="readyCount"
+                                class="ready-count"
+                                title="Coureurs ayant un dossard et une heure de départ"
+                            >
+                                0
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <span
+                        id="inscriptionCount"
+                        class="inscription-count"
+                        title="Nombre de coureurs affichés"
+                    >
+                        {{ coureurs|length }}
+                    </span>
+
+                </div>
+
+
+                <div class="filters">
+
+
+                    <div class="filter-container">
+
+                        <label for="categoryFilter">
+                            Catégorie
+                        </label>
+
+
+                        <select
+                            id="categoryFilter"
+                        >
+
+                            <option value="">
+                                Toutes
+                            </option>
+
+
+                            {% for categorie in categories %}
+
+                            <option value="{{ categorie }}">
+                                {{ categorie }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="filter-container">
+
+                        <label for="sexFilter">
+                            Sexe
+                        </label>
+
+
+                        <select
+                            id="sexFilter"
+                        >
+
+                            <option value="">
+                                Tous
+                            </option>
+
+
+                            <option value="M">
+                                Homme
+                            </option>
+
+
+                            <option value="F">
+                                Femme
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="search-container">
+
+                        <span class="search-icon">
+                            🔍
+                        </span>
+
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Rechercher..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <div class="table-container">
+
+
+                <div class="table-scroll">
+
+
+                    <table id="ridersTable">
+
+
+                        <thead>
+
+                            <tr>
+
+
+                                <th
+                                    class="sortable"
+                                    data-column="0"
+                                    data-type="number"
+                                >
+
+                                    <span class="th-content">
+
+                                        Dossard
+
+                                        <span class="sort-icon">
+                                            ↕
+                                        </span>
+
+                                    </span>
+
+                                </th>
+
+
+                                <th
+                                    class="sortable"
+                                    data-column="1"
+                                    data-type="text"
+                                >
+
+                                    <span class="th-content">
+
+                                        Nom
+
+                                        <span class="sort-icon">
+                                            ↕
+                                        </span>
+
+                                    </span>
+
+                                </th>
+
+
+                                <th
+                                    class="sortable"
+                                    data-column="2"
+                                    data-type="text"
+                                >
+
+                                    <span class="th-content">
+
+                                        Prénom
+
+                                        <span class="sort-icon">
+                                            ↕
+                                        </span>
+
+                                    </span>
+
+                                </th>
+
+
+                                <th
+                                    class="sortable"
+                                    data-column="3"
+                                    data-type="text"
+                                >
+
+                                    <span class="th-content">
+
+                                        Licence
+
+                                        <span class="sort-icon">
+                                            ↕
+                                        </span>
+
+                                    </span>
+
+                                </th>
+
+
+                                <th
+                                    class="sortable"
+                                    data-column="4"
+                                    data-type="text"
+                                >
+
+                                    <span class="th-content">
+
+                                        Club
+
+                                        <span class="sort-icon">
+                                            ↕
+                                        </span>
+
+                                    </span>
+
+                                </th>
+
+
+                                <th
+                                    class="sortable"
+                                    data-column="5"
+                                    data-type="text"
+                                >
+
+                                    <span class="th-content">
+
+                                        Sexe
+
+                                        <span class="sort-icon">
+                                            ↕
+                                        </span>
+
+                                    </span>
+
+                                </th>
+
+
+                                <th
+                                    class="sortable"
+                                    data-column="6"
+                                    data-type="date"
+                                >
+
+                                    <span class="th-content">
+
+                                        Naissance
+
+                                        <span class="sort-icon">
+                                            ↕
+                                        </span>
+
+                                    </span>
+
+                                </th>
+
+
+                                <th
+                                    class="sortable"
+                                    data-column="7"
+                                    data-type="text"
+                                >
+
+                                    <span class="th-content">
+
+                                        Catégorie
+
+                                        <span class="sort-icon">
+                                            ↕
+                                        </span>
+
+                                    </span>
+
+                                </th>
+
+
+                                <th
+                                    class="sortable"
+                                    data-column="8"
+                                    data-type="text"
+                                >
+
+                                    <span class="th-content">
+
+                                        Catégorie FFC
+
+                                        <span class="sort-icon">
+                                            ↕
+                                        </span>
+
+                                    </span>
+
+                                </th>
+
+
+                                <th
+                                    class="sortable"
+                                    data-column="9"
+                                    data-type="time"
+                                >
+
+                                    <span class="th-content">
+
+                                        Départ
+
+                                        <span class="sort-icon">
+                                            ↕
+                                        </span>
+
+                                    </span>
+
+                                </th>
+
+
+                                <th>
+                                    Actions
+                                </th>
+
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                        {% for coureur in coureurs %}
+
+
+                        <tr
+                            data-id="{{ coureur.id }}"
+                            data-categorie="{{ coureur.categorie }}"
+                            data-search="
+                                {{ coureur.dossard or '' }}
+                                {{ coureur.nom }}
+                                {{ coureur.prenom }}
+                                {{ coureur.licence or '' }}
+                                {{ coureur.club or '' }}
+                                {{ coureur.sexe }}
+                                {{ coureur.date_naissance }}
+                                {{ coureur.categorie }}
+                                {{ coureur.categorie_ffc or '' }}
+                                {{ coureur.heure_depart or '' }}
+                            "
+                        >
+
+
+                            <td class="cell-dossard">
+
+                                {% if coureur.dossard %}
+
+                                    <span class="bib">
+                                        {{ coureur.dossard }}
+                                    </span>
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td class="cell-nom">
+                                {{ coureur.nom }}
+                            </td>
+
+
+                            <td class="cell-prenom">
+                                {{ coureur.prenom }}
+                            </td>
+
+
+                            <td class="cell-licence">
+                                {{ coureur.licence or "-" }}
+                            </td>
+
+
+                            <td class="cell-club">
+                                {{ coureur.club or "-" }}
+                            </td>
+
+
+                            <td class="cell-sexe">
+                                {{ coureur.sexe }}
+                            </td>
+
+
+                            <td class="cell-naissance">
+                                {{ coureur.date_naissance }}
+                            </td>
+
+
+                            <td class="cell-categorie">
+
+                                <span class="badge">
+                                    {{ coureur.categorie }}
+                                </span>
+
+                            </td>
+
+
+                            <td class="cell-categorie-ffc">
+
+                                {% if coureur.categorie_ffc %}
+
+                                    <span class="badge-ffc">
+                                        {{ coureur.categorie_ffc }}
+                                    </span>
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td class="cell-depart">
+
+                                {% if coureur.heure_depart %}
+
+                                    {{ coureur.heure_depart.strftime("%H:%M:%S") }}
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="actions">
+
+
+                                    <button
+                                        type="button"
+                                        class="btn-edit"
+                                        onclick="editRow(this)"
+                                        title="Modifier"
+                                    >
+                                        ✏️
+                                    </button>
+
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for(
+                                            'supprimer_coureur',
+                                            coureur_id=coureur.id
+                                        ) }}"
+                                        class="delete-form"
+                                        data-nom="{{ coureur.prenom }} {{ coureur.nom }}"
+                                        onsubmit="return confirmDelete(this)"
+                                    >
+
+                                        <button
+                                            type="submit"
+                                            class="btn-delete"
+                                            title="Supprimer"
+                                        >
+                                            🗑️
+                                        </button>
+
+                                    </form>
+
+
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                        </tbody>
+
+                    </table>
+
+
+                    <div
+                        id="noResults"
+                        class="no-results"
+                    >
+
+                        Aucun coureur trouvé.
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ======================================================
+     MODELE DES CATEGORIES
+======================================================= -->
+
+<select
+    id="categoryOptionsTemplate"
+    style="display: none;"
+>
+
+    {% for categorie in categories %}
+
+    <option value="{{ categorie }}">
+        {{ categorie }}
+    </option>
+
+    {% endfor %}
+
+</select>
+
+
+<!-- ======================================================
+     MODELE DES CATEGORIES FFC
+======================================================= -->
+
+<select
+    id="categoryFfcOptionsTemplate"
+    style="display: none;"
+>
+
+    <option value="">
+        -- Aucune --
+    </option>
+
+
+    {% for categorie_ffc in categories_ffc %}
+
+    <option value="{{ categorie_ffc }}">
+        {{ categorie_ffc }}
+    </option>
+
+    {% endfor %}
+
+</select>
+
+
+
+<script>
+
+
+/* ==========================================================
+   ELEMENTS
+========================================================== */
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+
+const categoryFilter =
+    document.getElementById(
+        "categoryFilter"
+    );
+
+
+const sexFilter =
+    document.getElementById(
+        "sexFilter"
+    );
+
+
+const table =
+    document.getElementById(
+        "ridersTable"
+    );
+
+
+const tbody =
+    table.querySelector(
+        "tbody"
+    );
+
+
+const noResults =
+    document.getElementById(
+        "noResults"
+    );
+
+
+const inscriptionCount =
+    document.getElementById(
+        "inscriptionCount"
+    );
+
+
+const readyCount =
+    document.getElementById(
+        "readyCount"
+    );
+
+
+
+/* ==========================================================
+   FILTRES
+========================================================== */
+
+function applyFilters() {
+
+    const search =
+        searchInput.value
+            .toLowerCase()
+            .trim();
+
+
+    const selectedCategory =
+        categoryFilter.value;
+
+
+    const selectedSex =
+        sexFilter.value;
+
+
+    const rows =
+        tbody.querySelectorAll(
+            "tr"
+        );
+
+
+    let visibleRows = 0;
+
+
+    rows.forEach(
+        function(row) {
+
+            const text =
+                row.dataset.search
+                    .toLowerCase();
+
+
+            const category =
+                row.dataset.categorie;
+
+
+            const sex =
+                row.querySelector(
+                    ".cell-sexe"
+                ).textContent.trim();
+
+
+            const matchesSearch =
+                text.includes(
+                    search
+                );
+
+
+            const matchesCategory =
+                selectedCategory === "" ||
+                category === selectedCategory;
+
+
+            const matchesSex =
+                selectedSex === "" ||
+                sex === selectedSex;
+
+
+            const visible =
+                matchesSearch &&
+                matchesCategory &&
+                matchesSex;
+
+
+            if (visible) {
+
+                row.style.display = "";
+
+                visibleRows++;
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        }
+    );
+
+
+    noResults.style.display =
+        visibleRows === 0
+            ? "block"
+            : "none";
+
+
+    /*
+     * Le compteur correspond au nombre
+     * de coureurs actuellement visibles.
+     */
+
+    inscriptionCount.textContent =
+        visibleRows;
+
+}
+
+
+
+/* ==========================================================
+   COMPTEUR DES COUREURS PRETS
+========================================================== */
+
+function updateReadyCount() {
+
+    const rows =
+        tbody.querySelectorAll(
+            "tr"
+        );
+
+
+    let readyRows = 0;
+
+
+    rows.forEach(
+        function(row) {
+
+            const dossard =
+                row.querySelector(
+                    ".cell-dossard"
+                ).textContent.trim();
+
+
+            const depart =
+                row.querySelector(
+                    ".cell-depart"
+                ).textContent.trim();
+
+
+            const hasDossard =
+                dossard !== "" &&
+                dossard !== "-";
+
+
+            const hasDepart =
+                depart !== "" &&
+                depart !== "-";
+
+
+            if (
+                hasDossard &&
+                hasDepart
+            ) {
+
+                readyRows++;
+
+            }
+
+        }
+    );
+
+
+    readyCount.textContent =
+        readyRows;
+
+}
+
+
+searchInput.addEventListener(
+    "input",
+    applyFilters
+);
+
+
+categoryFilter.addEventListener(
+    "change",
+    applyFilters
+);
+
+
+sexFilter.addEventListener(
+    "change",
+    applyFilters
+);
+
+
+
+/* ==========================================================
+   TRI
+========================================================== */
+
+const sortableHeaders =
+    table.querySelectorAll(
+        "th.sortable"
+    );
+
+
+let currentSortColumn = null;
+
+let currentSortDirection = "asc";
+
+
+sortableHeaders.forEach(
+    function(header) {
+
+        header.addEventListener(
+            "click",
+            function() {
+
+                const column =
+                    Number(
+                        this.dataset.column
+                    );
+
+
+                const type =
+                    this.dataset.type;
+
+
+                if (
+                    currentSortColumn === column
+                ) {
+
+                    currentSortDirection =
+                        currentSortDirection === "asc"
+                            ? "desc"
+                            : "asc";
+
+                } else {
+
+                    currentSortColumn =
+                        column;
+
+                    currentSortDirection =
+                        "asc";
+                }
+
+
+                sortTable(
+                    column,
+                    type,
+                    currentSortDirection
+                );
+
+
+                updateSortIcons(
+                    this
+                );
+
+            }
+        );
+
+    }
+);
+
+
+
+function sortTable(
+    column,
+    type,
+    direction
+) {
+
+    const rows =
+        Array.from(
+            tbody.querySelectorAll("tr")
+        );
+
+
+    rows.sort(
+        function(rowA, rowB) {
+
+            const cellA =
+                rowA.children[column];
+
+
+            const cellB =
+                rowB.children[column];
+
+
+            const valueA =
+                cellA.textContent.trim();
+
+
+            const valueB =
+                cellB.textContent.trim();
+
+
+            const emptyA =
+                valueA === "" ||
+                valueA === "-";
+
+
+            const emptyB =
+                valueB === "" ||
+                valueB === "-";
+
+
+            if (
+                emptyA &&
+                emptyB
+            ) {
+
+                return 0;
+            }
+
+
+            if (emptyA) {
+
+                return 1;
+            }
+
+
+            if (emptyB) {
+
+                return -1;
+            }
+
+
+            if (type === "number") {
+
+                const numberA =
+                    Number(valueA);
+
+
+                const numberB =
+                    Number(valueB);
+
+
+                return direction === "asc"
+                    ? numberA - numberB
+                    : numberB - numberA;
+            }
+
+
+            if (type === "date") {
+
+                const dateA =
+                    new Date(valueA);
+
+
+                const dateB =
+                    new Date(valueB);
+
+
+                return direction === "asc"
+                    ? dateA - dateB
+                    : dateB - dateA;
+            }
+
+
+            if (type === "time") {
+
+                const timeA =
+                    timeToSeconds(
+                        valueA
+                    );
+
+
+                const timeB =
+                    timeToSeconds(
+                        valueB
+                    );
+
+
+                return direction === "asc"
+                    ? timeA - timeB
+                    : timeB - timeA;
+            }
+
+
+            const textA =
+                valueA.toLocaleLowerCase();
+
+
+            const textB =
+                valueB.toLocaleLowerCase();
+
+
+            return direction === "asc"
+
+                ? textA.localeCompare(
+                    textB,
+                    "fr"
+                )
+
+                : textB.localeCompare(
+                    textA,
+                    "fr"
+                );
+
+        }
+    );
+
+
+    rows.forEach(
+        function(row) {
+
+            tbody.appendChild(
+                row
+            );
+
+        }
+    );
+
+
+    applyFilters();
+
+}
+
+
+
+/* ==========================================================
+   ICONES DE TRI
+========================================================== */
+
+function updateSortIcons(
+    activeHeader
+) {
+
+    sortableHeaders.forEach(
+        function(header) {
+
+            header.classList.remove(
+                "sort-asc",
+                "sort-desc"
+            );
+
+
+            const icon =
+                header.querySelector(
+                    ".sort-icon"
+                );
+
+
+            icon.textContent =
+                "↕";
+
+        }
+    );
+
+
+    const activeIcon =
+        activeHeader.querySelector(
+            ".sort-icon"
+        );
+
+
+    if (
+        currentSortDirection === "asc"
+    ) {
+
+        activeHeader.classList.add(
+            "sort-asc"
+        );
+
+
+        activeIcon.textContent =
+            "↑";
+
+    } else {
+
+        activeHeader.classList.add(
+            "sort-desc"
+        );
+
+
+        activeIcon.textContent =
+            "↓";
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   HEURE -> SECONDES
+========================================================== */
+
+function timeToSeconds(
+    value
+) {
+
+    const parts =
+        value.split(":");
+
+
+    if (
+        parts.length !== 3
+    ) {
+
+        return 0;
+    }
+
+
+    const hours =
+        Number(parts[0]);
+
+
+    const minutes =
+        Number(parts[1]);
+
+
+    const seconds =
+        Number(parts[2]);
+
+
+    return (
+        hours * 3600 +
+        minutes * 60 +
+        seconds
+    );
+
+}
+
+
+
+/* ==========================================================
+   MODIFICATION D'UNE LIGNE
+========================================================== */
+
+function editRow(
+    button
+) {
+
+    const row =
+        button.closest("tr");
+
+
+    if (
+        row.classList.contains("editing")
+    ) {
+
+        return;
+    }
+
+
+    row.classList.add(
+        "editing"
+    );
+
+
+    const nom =
+        cleanValue(
+            row.querySelector(
+                ".cell-nom"
+            ).textContent
+        );
+
+
+    const prenom =
+        cleanValue(
+            row.querySelector(
+                ".cell-prenom"
+            ).textContent
+        );
+
+
+    const licence =
+        cleanValue(
+            row.querySelector(
+                ".cell-licence"
+            ).textContent
+        );
+
+
+    const club =
+        cleanValue(
+            row.querySelector(
+                ".cell-club"
+            ).textContent
+        );
+
+
+    const sexe =
+        cleanValue(
+            row.querySelector(
+                ".cell-sexe"
+            ).textContent
+        );
+
+
+    const naissance =
+        cleanValue(
+            row.querySelector(
+                ".cell-naissance"
+            ).textContent
+        );
+
+
+    const dossard =
+        cleanValue(
+            row.querySelector(
+                ".cell-dossard"
+            ).textContent
+        );
+
+
+    const depart =
+        cleanValue(
+            row.querySelector(
+                ".cell-depart"
+            ).textContent
+        );
+
+
+    const categorieFfc =
+        cleanValue(
+            row.querySelector(
+                ".cell-categorie-ffc"
+            ).textContent
+        );
+
+
+    const categorie =
+        row.dataset.categorie;
+
+
+    row.querySelector(
+        ".cell-nom"
+    ).innerHTML = `
+
+        <input
+            type="text"
+            class="edit-input"
+            name="nom"
+            value="${escapeHtml(nom)}"
+        >
+
+    `;
+
+
+    row.querySelector(
+        ".cell-prenom"
+    ).innerHTML = `
+
+        <input
+            type="text"
+            class="edit-input"
+            name="prenom"
+            value="${escapeHtml(prenom)}"
+        >
+
+    `;
+
+
+    row.querySelector(
+        ".cell-licence"
+    ).innerHTML = `
+
+        <input
+            type="text"
+            class="edit-input"
+            name="licence"
+            value="${escapeHtml(licence)}"
+        >
+
+    `;
+
+
+    row.querySelector(
+        ".cell-club"
+    ).innerHTML = `
+
+        <input
+            type="text"
+            class="edit-input"
+            name="club"
+            value="${escapeHtml(club)}"
+        >
+
+    `;
+
+
+    row.querySelector(
+        ".cell-sexe"
+    ).innerHTML = `
+
+        <select
+            class="edit-select"
+            name="sexe"
+        >
+
+            <option
+                value="M"
+                ${sexe === "M" ? "selected" : ""}
+            >
+                Homme
+            </option>
+
+
+            <option
+                value="F"
+                ${sexe === "F" ? "selected" : ""}
+            >
+                Femme
+            </option>
+
+        </select>
+
+    `;
+
+
+    row.querySelector(
+        ".cell-naissance"
+    ).innerHTML = `
+
+        <input
+            type="date"
+            class="edit-input"
+            name="date_naissance"
+            value="${escapeHtml(naissance)}"
+        >
+
+    `;
+
+
+    row.querySelector(
+        ".cell-dossard"
+    ).innerHTML = `
+
+        <input
+            type="number"
+            class="edit-input"
+            name="dossard"
+            value="${escapeHtml(dossard)}"
+        >
+
+    `;
+
+
+    row.querySelector(
+        ".cell-depart"
+    ).innerHTML = `
+
+        <input
+            type="time"
+            class="edit-input"
+            name="heure_depart"
+            value="${escapeHtml(depart)}"
+            lang="fr-FR"
+        >
+
+    `;
+
+
+    const template =
+        document.getElementById(
+            "categoryOptionsTemplate"
+        );
+
+
+    row.querySelector(
+        ".cell-categorie"
+    ).innerHTML = `
+
+        <select
+            class="edit-select"
+            name="categorie"
+        >
+
+            ${template.innerHTML}
+
+        </select>
+
+    `;
+
+
+    const categorySelect =
+        row.querySelector(
+            ".cell-categorie select"
+        );
+
+
+    categorySelect.value =
+        categorie;
+
+
+    const templateFfc =
+        document.getElementById(
+            "categoryFfcOptionsTemplate"
+        );
+
+
+    row.querySelector(
+        ".cell-categorie-ffc"
+    ).innerHTML = `
+
+        <select
+            class="edit-select"
+            name="categorie_ffc"
+        >
+
+            ${templateFfc.innerHTML}
+
+        </select>
+
+    `;
+
+
+    const categoryFfcSelect =
+        row.querySelector(
+            ".cell-categorie-ffc select"
+        );
+
+
+    categoryFfcSelect.value =
+        categorieFfc;
+
+
+    row.querySelector(
+        ".actions"
+    ).innerHTML = `
+
+        <button
+            type="button"
+            class="btn-save"
+            onclick="saveRow(this)"
+            title="Enregistrer"
+        >
+            💾
+        </button>
+
+
+        <button
+            type="button"
+            class="btn-cancel"
+            onclick="cancelEdit()"
+            title="Annuler"
+        >
+            ✕
+        </button>
+
+    `;
+
+}
+
+
+
+/* ==========================================================
+   SAUVEGARDER
+========================================================== */
+
+function saveRow(
+    button
+) {
+
+    const row =
+        button.closest("tr");
+
+
+    const id =
+        row.dataset.id;
+
+
+    const form =
+        document.createElement(
+            "form"
+        );
+
+
+    form.method =
+        "POST";
+
+
+    form.action =
+        `/modifier_coureur/${id}`;
+
+
+    const fields =
+        row.querySelectorAll(
+            "input[name], select[name]"
+        );
+
+
+    fields.forEach(
+        function(field) {
+
+            const hidden =
+                document.createElement(
+                    "input"
+                );
+
+
+            hidden.type =
+                "hidden";
+
+
+            hidden.name =
+                field.name;
+
+
+            hidden.value =
+                field.value;
+
+
+            form.appendChild(
+                hidden
+            );
+
+        }
+    );
+
+
+    document.body.appendChild(
+        form
+    );
+
+
+    form.submit();
+
+}
+
+
+
+/* ==========================================================
+   ANNULER
+========================================================== */
+
+function cancelEdit() {
+
+    location.reload();
+
+}
+
+
+
+/* ==========================================================
+   SUPPRESSION
+========================================================== */
+
+function confirmDelete(
+    form
+) {
+
+    const nom =
+        form.dataset.nom;
+
+
+    return confirm(
+        `Voulez-vous vraiment supprimer ${nom} ?`
+    );
+
+}
+
+
+
+/* ==========================================================
+   NETTOYAGE
+========================================================== */
+
+function cleanValue(
+    value
+) {
+
+    value =
+        value.trim();
+
+
+    if (
+        value === "" ||
+        value === "-"
+    ) {
+
+        return "";
+
+    }
+
+
+    return value;
+
+}
+
+
+
+/* ==========================================================
+   PROTECTION HTML
+========================================================== */
+
+function escapeHtml(
+    value
+) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+
+/* ==========================================================
+   INITIALISATION
+========================================================== */
+
+applyFilters();
+updateReadyCount();
+
+
+</script>
+
+
+</body>
+
+</html>
+
