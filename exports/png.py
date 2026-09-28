@@ -104,6 +104,7 @@ def formater_ecart(centisecondes):
 def exporter_png(
     resultat,
     titre,
+    course,
     type_classement
 ):
 
@@ -227,7 +228,7 @@ def exporter_png(
             marge
         ),
 
-        "ChronoLive",
+        f"{course.nom} · {course.date.strftime('%d/%m/%Y')}",
 
         font=police_logo,
 

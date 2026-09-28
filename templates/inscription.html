@@ -39,6 +39,106 @@
             overflow: hidden;
         }
 
+        /* ==========================================
+        POPUP ERREUR
+        ========================================== */
+
+        .error-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 999;
+
+            background:
+                rgba(0, 0, 0, 0.45);
+        }
+
+
+        .error-popup {
+
+            position: fixed;
+
+            top: 50%;
+            left: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            z-index: 1000;
+
+            min-width: 320px;
+
+            max-width: 450px;
+
+            padding: 24px;
+
+            background: #ffffff;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0, 0, 0, 0.30);
+
+            text-align: center;
+        }
+
+
+        .error-popup-title {
+
+            margin-bottom: 10px;
+
+            font-size: 19px;
+
+            font-weight: 700;
+
+            color: #111827;
+        }
+
+
+        .error-popup-message {
+
+            margin-bottom: 20px;
+
+            color: #4b5563;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            word-break: break-word;
+        }
+
+
+        .error-popup-button {
+
+            padding: 9px 25px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #2589e8;
+
+            color: #ffffff;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .error-popup-button:hover {
+
+            background: #1879d4;
+        }
 
         /* ==========================================
            HEADER
@@ -975,7 +1075,7 @@
 
             <form
                 method="POST"
-                action="{{ url_for('ajouter_coureur') }}"
+                action="{{ url_for('inscription.ajouter_coureur') }}"
             >
 
 
@@ -1648,7 +1748,7 @@
                                     <form
                                         method="POST"
                                         action="{{ url_for(
-                                            'supprimer_coureur',
+                                            'inscription.supprimer_coureur',
                                             coureur_id=coureur.id
                                         ) }}"
                                         class="delete-form"
@@ -1751,8 +1851,101 @@
 
 
 
+<!-- ======================================================
+     POPUP ERREUR
+======================================================= -->
+
+{% if request.args.get("erreur") %}
+
+<div
+    class="error-overlay"
+    onclick="fermerErreur()"
+></div>
+
+
+<div
+    class="error-popup"
+    role="alertdialog"
+    aria-modal="true"
+>
+
+    <div class="error-popup-title">
+
+        ⚠️ Erreur
+
+    </div>
+
+
+    <div class="error-popup-message">
+
+        {{ request.args.get("erreur") }}
+
+    </div>
+
+
+    <button
+        type="button"
+        class="error-popup-button"
+        onclick="fermerErreur()"
+    >
+
+        OK
+
+    </button>
+
+</div>
+
+{% endif %}
+
+
 <script>
 
+/* ==========================================================
+   POPUP ERREUR
+========================================================== */
+
+function fermerErreur() {
+
+    const popup =
+        document.querySelector(
+            ".error-popup"
+        );
+
+
+    const overlay =
+        document.querySelector(
+            ".error-overlay"
+        );
+
+
+    if (popup) {
+
+        popup.remove();
+
+    }
+
+
+    if (overlay) {
+
+        overlay.remove();
+
+    }
+
+}
+
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+
+            fermerErreur();
+
+        }
+
+    }
+);
 
 /* ==========================================================
    ELEMENTS

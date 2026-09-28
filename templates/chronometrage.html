@@ -146,13 +146,13 @@
 
             height: calc(100vh - 70px);
 
-            padding: 20px 24px;
+            padding: 14px 24px;
 
             display: flex;
 
             flex-direction: column;
 
-            gap: 20px;
+            gap: 12px;
         }
 
 
@@ -162,11 +162,13 @@
 
         .clock-panel {
 
+            position: relative;
+
             flex: 0 0 auto;
 
             text-align: center;
 
-            padding: 10px 0 20px 0;
+            padding: 8px 0 16px 0;
         }
 
 
@@ -174,9 +176,9 @@
 
             font-size:
                 clamp(
-                    60px,
-                    8vw,
-                    110px
+                    56px,
+                    7vw,
+                    96px
                 );
 
             line-height: 1;
@@ -201,7 +203,7 @@
 
         .arrival-form {
 
-            margin-top: 22px;
+            margin-top: 18px;
         }
 
 
@@ -209,7 +211,7 @@
 
             min-width: 300px;
 
-            padding: 18px 45px;
+            padding: 16px 45px;
 
             border-radius: 12px;
 
@@ -244,21 +246,94 @@
 
 
         /* ==========================================
-           PANELS
+           ARRIVEE MANQUEE
         ========================================== */
 
-        .panels {
+        .arrival-missed-button {
+
+            position: absolute;
+
+            right: 0;
+
+            bottom: 20px;
+
+            padding: 8px 12px;
+
+            border:
+                1px solid #365675;
+
+            border-radius: 7px;
+
+            background: transparent;
+
+            color: #7f94a9;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+
+        .arrival-missed-button:hover {
+
+            background: #102c49;
+
+            color: #ffffff;
+        }
+
+
+        /* ==========================================
+           SECTIONS
+        ========================================== */
+
+        .section {
+
+            flex: 0 0 auto;
+        }
+
+
+        .section-title {
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.04em;
+
+            text-transform: uppercase;
+
+            color: #e8eef5;
+        }
+
+
+        /* ==========================================
+           ARRIVEES
+        ========================================== */
+
+        .arrivals-section {
+
+            flex: 1 1 auto;
 
             min-height: 0;
+        }
 
-            flex: 1;
+
+        .arrivals-grid {
+
+            height: calc(100% - 22px);
+
+            min-height: 0;
 
             display: grid;
 
             grid-template-columns:
                 1fr 1.1fr;
 
-            gap: 18px;
+            gap: 14px;
         }
 
 
@@ -277,7 +352,7 @@
             border:
                 1px solid #234663;
 
-            border-radius: 12px;
+            border-radius: 10px;
 
             overflow: hidden;
         }
@@ -287,7 +362,7 @@
 
             flex: 0 0 auto;
 
-            padding: 16px 18px;
+            padding: 11px 14px;
 
             display: flex;
 
@@ -305,7 +380,7 @@
 
             margin: 0;
 
-            font-size: 18px;
+            font-size: 15px;
 
             font-weight: 700;
         }
@@ -313,15 +388,15 @@
 
         .count {
 
-            padding: 5px 10px;
+            padding: 4px 8px;
 
-            border-radius: 7px;
+            border-radius: 6px;
 
             background: #15538a;
 
             color: #b9ddff;
 
-            font-size: 12px;
+            font-size: 11px;
 
             font-weight: 700;
         }
@@ -345,7 +420,9 @@
 
             min-height: 0;
 
-            overflow: auto;
+            overflow-y: auto;
+
+            overflow-x: auto;
         }
 
 
@@ -365,13 +442,13 @@
 
             z-index: 2;
 
-            padding: 11px 14px;
+            padding: 8px 11px;
 
             background: #102c49;
 
             color: #91a7bd;
 
-            font-size: 11px;
+            font-size: 10px;
 
             text-align: left;
 
@@ -383,12 +460,12 @@
 
         td {
 
-            padding: 12px 14px;
+            padding: 9px 11px;
 
             border-bottom:
                 1px solid #173651;
 
-            font-size: 14px;
+            font-size: 13px;
 
             white-space: nowrap;
         }
@@ -438,15 +515,15 @@
 
             display: inline-block;
 
-            padding: 4px 8px;
+            padding: 3px 7px;
 
-            border-radius: 6px;
+            border-radius: 5px;
 
             background: #244d77;
 
             color: #c5e2ff;
 
-            font-size: 11px;
+            font-size: 10px;
 
             font-weight: 700;
         }
@@ -458,19 +535,15 @@
 
         .associate-form {
 
-            display: flex;
-
-            align-items: center;
-
-            gap: 7px;
+            display: inline;
         }
 
 
         .associate-form input {
 
-            width: 100px;
+            width: 88px;
 
-            padding: 8px 9px;
+            padding: 7px 8px;
 
             border:
                 1px solid #365675;
@@ -481,7 +554,7 @@
 
             color: white;
 
-            font-size: 13px;
+            font-size: 12px;
 
             text-align: center;
         }
@@ -499,7 +572,7 @@
         }
 
 
-        .associate-form button {
+        .associate-button {
 
             padding: 8px 12px;
 
@@ -519,7 +592,7 @@
         }
 
 
-        .associate-form button:hover {
+        .associate-button:hover {
 
             background: #1879d4;
         }
@@ -533,7 +606,7 @@
 
         .delete-button {
 
-            padding: 8px 12px;
+            padding: 7px 10px;
 
             border: none;
 
@@ -543,7 +616,7 @@
 
             color: white;
 
-            font-size: 12px;
+            font-size: 11px;
 
             font-weight: 700;
 
@@ -559,13 +632,319 @@
 
         .empty {
 
-            padding: 35px;
+            padding: 28px;
 
             text-align: center;
 
             color: #71869b;
 
-            font-size: 14px;
+            font-size: 13px;
+        }
+
+
+        /* ==========================================
+           PROCHAINS PARTANTS
+        ========================================== */
+
+        .starters-list {
+
+            max-height: 90px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+
+            overflow-y: auto;
+
+            overflow-x: hidden;
+        }
+
+
+        .starter {
+
+            flex: 0 0 32px;
+
+            min-height: 40px;
+
+            padding: 6px 13px;
+
+            background: #0d2540;
+
+            border:
+                1px solid #234663;
+
+            border-radius: 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .starter-left {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 3px;
+
+            min-width: 0;
+        }
+
+
+        .starter-name {
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .starter-departure {
+
+            font-size: 11px;
+
+            color: #8196aa;
+
+            font-variant-numeric:
+                tabular-nums;
+        }
+
+
+        .starter-countdown {
+
+            flex: 0 0 auto;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #b9ddff;
+
+            font-variant-numeric:
+                tabular-nums;
+
+            text-align: right;
+        }
+
+
+        /* ==========================================
+           COUREURS A GERER
+        ========================================== */
+
+        .management-search {
+
+            margin-bottom: 8px;
+        }
+
+
+        .management-search input {
+
+            width: 100%;
+
+            padding: 9px 11px;
+
+            border:
+                1px solid #365675;
+
+            border-radius: 7px;
+
+            background: #081c31;
+
+            color: #ffffff;
+
+            font-size: 12px;
+        }
+
+
+        .management-search input::placeholder {
+
+            color: #71869b;
+        }
+
+
+        .management-search input:focus {
+
+            outline: none;
+
+            border-color: #2589e8;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(37, 137, 232, 0.15);
+        }
+
+
+        .management-panel {
+
+            background: #0d2540;
+
+            border:
+                1px solid #234663;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+
+        .management-table-container {
+
+            max-height: 180px;
+
+            overflow-y: auto;
+
+            overflow-x: auto;
+        }
+
+
+        .management-table {
+
+            width: 100%;
+        }
+
+
+        .management-table th {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 2;
+        }
+
+
+        .management-table td {
+
+            padding: 8px 11px;
+        }
+
+
+        .management-rider {
+
+            font-weight: 600;
+
+            color: #f1f5f9;
+        }
+
+
+        .management-status {
+
+            width: 140px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            color: #91a7bd;
+
+            text-transform: uppercase;
+        }
+
+
+        .management-actions {
+
+            text-align: right;
+
+            width: 1%;
+
+            white-space: nowrap;
+        }
+
+
+        .status-form {
+
+            display: inline;
+        }
+
+
+        .status-action[hidden] {
+
+            display: none;
+        }
+
+
+        .status-button {
+
+            margin-left: 5px;
+
+            padding: 6px 9px;
+
+            border:
+                1px solid #365675;
+
+            border-radius: 6px;
+
+            background: transparent;
+
+            color: #aebdcb;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .status-button:hover {
+
+            background: #102c49;
+
+            color: #ffffff;
+        }
+
+
+        .restore-button {
+
+            color: #93bddf;
+        }
+
+
+        /* ==========================================
+           FOOTER
+        ========================================== */
+
+        .footer {
+
+            flex: 0 0 auto;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            color: #7f94a9;
+
+            font-size: 11px;
+        }
+
+
+        .footer-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .footer-dot {
+
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #22c55e;
         }
 
 
@@ -670,46 +1049,6 @@
 
 
         /* ==========================================
-           FOOTER
-        ========================================== */
-
-        .footer {
-
-            flex: 0 0 auto;
-
-            display: flex;
-
-            justify-content:
-                space-between;
-
-            color: #7f94a9;
-
-            font-size: 12px;
-        }
-
-
-        .footer-left {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 8px;
-        }
-
-
-        .footer-dot {
-
-            width: 8px;
-            height: 8px;
-
-            border-radius: 50%;
-
-            background: #22c55e;
-        }
-
-
-        /* ==========================================
            RESPONSIVE
         ========================================== */
 
@@ -725,19 +1064,30 @@
             .page {
 
                 height: auto;
+
+                min-height: calc(100vh - 70px);
             }
 
 
-            .panels {
+            .arrivals-section {
+
+                flex: 0 0 auto;
+            }
+
+
+            .arrivals-grid {
+
+                height: 360px;
 
                 grid-template-columns: 1fr;
-
             }
 
 
-            .panel {
+            .arrival-missed-button {
 
-                min-height: 400px;
+                position: static;
+
+                margin-top: 10px;
             }
 
         }
@@ -767,7 +1117,7 @@
             .page {
 
                 padding:
-                    15px;
+                    12px;
             }
 
 
@@ -776,6 +1126,21 @@
                 min-width: 240px;
 
                 font-size: 18px;
+            }
+
+
+            .starter {
+
+                align-items:
+                    flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .starter-countdown {
+
+                text-align: left;
             }
 
         }
@@ -857,7 +1222,7 @@
         <form
             class="arrival-form"
             method="POST"
-            action="{{ url_for('enregistrer_arrivee') }}"
+            action="{{ url_for('chronometrage.enregistrer_arrivee') }}"
         >
 
             <button
@@ -869,360 +1234,765 @@
 
         </form>
 
+
+        <button
+            type="button"
+            class="arrival-missed-button"
+        >
+            + Arrivée manquée
+        </button>
+
     </div>
 
 
 
     <!-- ==================================================
-         PANELS
+         ARRIVEES
     ================================================== -->
 
-    <div class="panels">
+    <div class="section arrivals-section">
 
 
-        <!-- ==================================================
-             ARRIVEES EN ATTENTE
-        ================================================== -->
-
-        <div class="panel">
+        <div class="section-title">
+            Arrivées
+        </div>
 
 
-            <div class="panel-header">
-
-                <h2 class="panel-title">
-                    Arrivées à associer
-                </h2>
+        <div class="arrivals-grid">
 
 
-                <span class="count">
+            <!-- ==================================================
+                 ARRIVEES A ASSOCIER
+            ================================================== -->
 
-                    {{ arrivees_en_attente|length }}
-
-                    en attente
-
-                </span>
-
-            </div>
+            <div class="panel">
 
 
-            <div class="table-container">
+                <div class="panel-header">
+
+                    <h2 class="panel-title">
+                        Arrivées à associer
+                    </h2>
 
 
-                {% if arrivees_en_attente %}
+                    <span class="count">
+
+                        {{ arrivees_en_attente|length }}
+
+                        en attente
+
+                    </span>
+
+                </div>
 
 
-                <table>
+                <div class="table-container">
 
-                    <thead>
+
+                    {% if arrivees_en_attente %}
+
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Heure
+                                </th>
+
+                                <th>
+                                    Dossard
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                        {% for arrivee in arrivees_en_attente %}
+
 
                         <tr>
 
-                            <th>
-                                Heure
-                            </th>
 
-                            <th>
-                                Dossard
-                            </th>
+                            <td class="timestamp">
 
-                            <th>
-                                Action
-                            </th>
+                                {{ arrivee.timestamp }}
 
-                        </tr>
-
-                    </thead>
+                            </td>
 
 
-                    <tbody>
+                            <td>
 
-
-                    {% for arrivee in arrivees_en_attente %}
-
-
-                    <tr>
-
-
-                        <td class="timestamp">
-
-                            {{ arrivee.timestamp }}
-
-                        </td>
-
-
-                        <td>
-
-
-                            <form
-                                method="POST"
-                                class="associate-form"
-                                action="{{ url_for(
-                                    'associer_arrivee',
-                                    arrivee_id=arrivee.id
-                                ) }}"
-                            >
-
-                                <input
-                                    type="text"
-                                    name="dossard"
-                                    placeholder="Dossard"
-                                    inputmode="numeric"
-                                    autocomplete="off"
-                                    required
+                                <form
+                                    id="associer-{{ arrivee.id }}"
+                                    method="POST"
+                                    class="associate-form"
+                                    action="{{ url_for(
+                                        'chronometrage.associer_arrivee',
+                                        arrivee_id=arrivee.id
+                                    ) }}"
                                 >
+
+                                    <input
+                                        type="text"
+                                        name="dossard"
+                                        placeholder="Dossard"
+                                        inputmode="numeric"
+                                        autocomplete="off"
+                                        required
+                                    >
+
+                                </form>
+
+                            </td>
+
+
+                            <td>
 
                                 <button
                                     type="submit"
+                                    form="associer-{{ arrivee.id }}"
+                                    class="associate-button"
                                 >
                                     Associer
                                 </button>
 
-                            </form>
 
-
-                        </td>
-
-
-                        <td>
-
-
-                            <form
-                                method="POST"
-                                class="delete-form"
-                                action="{{ url_for(
-                                    'supprimer_arrivee',
-                                    arrivee_id=arrivee.id
-                                ) }}"
-                                onsubmit="
-                                    return confirm(
-                                        'Supprimer cette arrivée ?'
-                                    );
-                                "
-                            >
-
-                                <button
-                                    type="submit"
-                                    class="delete-button"
+                                <form
+                                    method="POST"
+                                    class="delete-form"
+                                    action="{{ url_for(
+                                        'chronometrage.supprimer_arrivee',
+                                        arrivee_id=arrivee.id
+                                    ) }}"
+                                    onsubmit="
+                                        return confirm(
+                                            'Supprimer cette arrivée ?'
+                                        );
+                                    "
                                 >
-                                    Supprimer
-                                </button>
 
-                            </form>
+                                    <button
+                                        type="submit"
+                                        class="delete-button"
+                                    >
+                                        Supprimer
+                                    </button>
 
+                                </form>
 
-                        </td>
-
-
-                    </tr>
-
-
-                    {% endfor %}
+                            </td>
 
 
-                    </tbody>
-
-                </table>
+                        </tr>
 
 
-                {% else %}
+                        {% endfor %}
 
 
-                <div class="empty">
+                        </tbody>
 
-                    Aucune arrivée en attente.
+                    </table>
+
+
+                    {% else %}
+
+
+                    <div class="empty">
+
+                        Aucune arrivée en attente.
+
+                    </div>
+
+
+                    {% endif %}
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 ARRIVEES ASSOCIEES
+            ================================================== -->
+
+            <div class="panel">
+
+
+                <div class="panel-header">
+
+                    <h2 class="panel-title">
+                        Arrivées associées
+                    </h2>
+
+
+                    <span
+                        class="count count-green"
+                    >
+
+                        {{ arrivees_associees|length }}
+
+                        arrivées
+
+                    </span>
 
                 </div>
 
 
-                {% endif %}
+                <div class="table-container">
 
+
+                    {% if arrivees_associees %}
+
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Dossard
+                                </th>
+
+                                <th>
+                                    Nom
+                                </th>
+
+                                <th>
+                                    Cat.
+                                </th>
+
+                                <th>
+                                    Départ
+                                </th>
+
+                                <th>
+                                    Arrivée
+                                </th>
+
+                                <th>
+                                    Temps
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                        {% for arrivee in arrivees_associees %}
+
+
+                        <tr>
+
+
+                            <td class="bib">
+
+                                #{{ arrivee.dossard }}
+
+                            </td>
+
+
+                            <td>
+
+                                {{ arrivee.nom }}
+                                {{ arrivee.prenom }}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="category">
+
+                                    {{ arrivee.categorie }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td class="timestamp">
+
+                                {{ arrivee.heure_depart }}
+
+                            </td>
+
+
+                            <td class="timestamp">
+
+                                {{ arrivee.timestamp }}
+
+                            </td>
+
+
+                            <td class="time">
+
+                                {{ arrivee.temps }}
+
+                            </td>
+
+
+                            <td>
+
+                                <form
+                                    method="POST"
+                                    class="delete-form"
+                                    action="{{ url_for(
+                                        'chronometrage.supprimer_arrivee',
+                                        arrivee_id=arrivee.id
+                                    ) }}"
+                                    onsubmit="
+                                        return confirm(
+                                            'Supprimer cette arrivée ?'
+                                        );
+                                    "
+                                >
+
+                                    <button
+                                        type="submit"
+                                        class="delete-button"
+                                    >
+                                        Supprimer
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                        </tbody>
+
+                    </table>
+
+
+                    {% else %}
+
+
+                    <div class="empty">
+
+                        Aucune arrivée associée.
+
+                    </div>
+
+
+                    {% endif %}
+
+
+                </div>
 
             </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         PROCHAINS PARTANTS
+    ================================================== -->
+
+    <div class="section">
+
+
+        <div class="section-title">
+            Prochains partants
+        </div>
+
+
+        <div class="starters-list">
+
+
+            {% if prochains_partants %}
+
+
+                {% for coureur in prochains_partants %}
+
+
+                <div
+                    class="starter"
+                    data-start-time="{{ coureur.heure_depart }}"
+                >
+
+
+                    <div class="starter-left">
+
+
+                        <div class="starter-name">
+
+                            #{{ coureur.dossard }}
+
+                            {{ coureur.nom }}
+                            {{ coureur.prenom }}
+
+                        </div>
+
+
+                        <div class="starter-departure">
+
+                            Départ :
+
+                            {{ coureur.heure_depart }}
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="starter-countdown">
+
+                        Départ dans 00:00:00
+
+                    </div>
+
+
+                </div>
+
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+            <div class="empty">
+
+                Aucun départ à venir.
+
+            </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         COUREURS A GERER
+    ================================================== -->
+
+    <div class="section">
+
+
+        <div class="section-title">
+            Gestion des coureurs
+        </div>
+
+
+        <div class="management-search">
+
+            <input
+                type="text"
+                id="managementSearch"
+                placeholder="Rechercher par dossard, nom ou prénom..."
+                autocomplete="off"
+            >
 
         </div>
 
 
-
-        <!-- ==================================================
-             ARRIVEES ASSOCIEES
-        ================================================== -->
-
-        <div class="panel">
+        <div class="management-panel">
 
 
-            <div class="panel-header">
-
-                <h2 class="panel-title">
-                    Arrivées associées
-                </h2>
+            <div class="management-table-container">
 
 
-                <span
-                    class="count count-green"
-                >
-
-                    {{ arrivees_associees|length }}
-
-                    arrivées
-
-                </span>
-
-            </div>
-
-
-            <div class="table-container">
-
-
-                {% if arrivees_associees %}
-
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Dossard
-                            </th>
-
-                            <th>
-                                Nom
-                            </th>
-
-                            <th>
-                                Cat.
-                            </th>
-
-                            <th>
-                                Départ
-                            </th>
-
-                            <th>
-                                Arrivée
-                            </th>
-
-                            <th>
-                                Temps
-                            </th>
-
-                            <th>
-                                Action
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
+                <table class="management-table">
 
                     <tbody>
 
 
-                    {% for arrivee in arrivees_associees %}
+                    {% if coureurs_a_gerer %}
 
 
-                    <tr>
+                        {% for coureur in coureurs_a_gerer %}
 
 
-                        <td class="bib">
-
-                            #{{ arrivee.dossard }}
-
-                        </td>
-
-
-                        <td>
-
-                            {{ arrivee.nom }}
-                            {{ arrivee.prenom }}
-
-                        </td>
+                        <tr
+                            class="management-row"
+                            data-search="
+                                {{ coureur.dossard }}
+                                {{ coureur.nom }}
+                                {{ coureur.prenom }}
+                            "
+                            data-statut="{{ coureur.statut }}"
+                            data-start-time="{{ coureur.heure_depart or '' }}"
+                        >
 
 
-                        <td>
+                            <td class="management-rider">
 
-                            <span class="category">
+                                #{{ coureur.dossard }}
 
-                                {{ arrivee.categorie }}
+                                {{ coureur.nom }}
+                                {{ coureur.prenom }}
 
-                            </span>
-
-                        </td>
-
-
-                        <td class="timestamp">
-
-                            {{ arrivee.heure_depart }}
-
-                        </td>
+                            </td>
 
 
-                        <td class="timestamp">
+                            <td class="management-status">
 
-                            {{ arrivee.timestamp }}
+                                {{ coureur.statut_affichage }}
 
-                        </td>
-
-
-                        <td class="time">
-
-                            {{ arrivee.temps }}
-
-                        </td>
+                            </td>
 
 
-                        <td>
+                            <td class="management-actions">
 
 
-                            <form
-                                method="POST"
-                                class="delete-form"
-                                action="{{ url_for(
-                                    'supprimer_arrivee',
-                                    arrivee_id=arrivee.id
-                                ) }}"
-                                onsubmit="
-                                    return confirm(
-                                        'Supprimer cette arrivée ?'
-                                    );
-                                "
+                                <!-- ======================================
+                                     COUREUR PRET
+                                ====================================== -->
+
+                                {% if coureur.statut == 'pret' %}
+
+
+                                    <!-- DNS : visible avant le départ -->
+
+                                    <form
+                                        method="POST"
+                                        class="status-form status-action status-action-dns"
+                                        action="{{ url_for(
+                                            'chronometrage.modifier_statut_coureur',
+                                            coureur_id=coureur.id
+                                        ) }}"
+                                    >
+
+                                        <input
+                                            type="hidden"
+                                            name="statut"
+                                            value="dns"
+                                        >
+
+                                        <button
+                                            type="submit"
+                                            class="status-button"
+                                        >
+                                            DNS
+                                        </button>
+
+                                    </form>
+
+
+                                    <!-- DNF : visible après le départ -->
+
+                                    <form
+                                        method="POST"
+                                        class="status-form status-action status-action-course"
+                                        action="{{ url_for(
+                                            'chronometrage.modifier_statut_coureur',
+                                            coureur_id=coureur.id
+                                        ) }}"
+                                        hidden
+                                    >
+
+                                        <input
+                                            type="hidden"
+                                            name="statut"
+                                            value="dnf"
+                                        >
+
+                                        <button
+                                            type="submit"
+                                            class="status-button"
+                                        >
+                                            DNF
+                                        </button>
+
+                                    </form>
+
+
+                                    <!-- DSQ : visible après le départ -->
+
+                                    <form
+                                        method="POST"
+                                        class="status-form status-action status-action-course"
+                                        action="{{ url_for(
+                                            'chronometrage.modifier_statut_coureur',
+                                            coureur_id=coureur.id
+                                        ) }}"
+                                        hidden
+                                    >
+
+                                        <input
+                                            type="hidden"
+                                            name="statut"
+                                            value="dsq"
+                                        >
+
+                                        <button
+                                            type="submit"
+                                            class="status-button"
+                                        >
+                                            DSQ
+                                        </button>
+
+                                    </form>
+
+
+                                <!-- ======================================
+                                     COUREUR INSCRIT
+                                ====================================== -->
+
+                                {% elif coureur.statut == 'inscrit' %}
+
+                                    <form
+                                        method="POST"
+                                        class="status-form"
+                                        action="{{ url_for(
+                                            'chronometrage.modifier_statut_coureur',
+                                            coureur_id=coureur.id
+                                        ) }}"
+                                    >
+
+                                        <input
+                                            type="hidden"
+                                            name="statut"
+                                            value="dns"
+                                        >
+
+                                        <button
+                                            type="submit"
+                                            class="status-button"
+                                        >
+                                            DNS
+                                        </button>
+
+                                    </form>
+
+
+                                <!-- ======================================
+                                     COUREUR ARRIVE
+                                ====================================== -->
+
+                                {% elif coureur.statut == 'arrive' %}
+
+                                    <form
+                                        method="POST"
+                                        class="status-form"
+                                        action="{{ url_for(
+                                            'chronometrage.modifier_statut_coureur',
+                                            coureur_id=coureur.id
+                                        ) }}"
+                                    >
+
+                                        <input
+                                            type="hidden"
+                                            name="statut"
+                                            value="dsq"
+                                        >
+
+                                        <button
+                                            type="submit"
+                                            class="status-button"
+                                        >
+                                            DSQ
+                                        </button>
+
+                                    </form>
+
+
+                                <!-- ======================================
+                                     STATUT TERMINAL
+                                ====================================== -->
+
+                                {% elif coureur.statut in [
+                                    'dns',
+                                    'dnf',
+                                    'dsq'
+                                ] %}
+
+                                    <form
+                                        method="POST"
+                                        class="status-form"
+                                        action="{{ url_for(
+                                            'chronometrage.modifier_statut_coureur',
+                                            coureur_id=coureur.id
+                                        ) }}"
+                                    >
+
+                                        <input
+                                            type="hidden"
+                                            name="statut"
+                                            value="pret"
+                                        >
+
+                                        <button
+                                            type="submit"
+                                            class="status-button restore-button"
+                                        >
+                                            Remettre en course
+                                        </button>
+
+                                    </form>
+
+                                {% endif %}
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+
+                        <tr>
+
+                            <td
+                                colspan="3"
+                                class="empty"
                             >
 
-                                <button
-                                    type="submit"
-                                    class="delete-button"
-                                >
-                                    Supprimer
-                                </button>
+                                Aucun coureur.
 
-                            </form>
+                            </td>
+
+                        </tr>
 
 
-                        </td>
-
-
-                    </tr>
-
-
-                    {% endfor %}
+                    {% endif %}
 
 
                     </tbody>
 
                 </table>
-
-
-                {% else %}
-
-
-                <div class="empty">
-
-                    Aucune arrivée associée.
-
-                </div>
-
-
-                {% endif %}
 
 
             </div>
@@ -1255,10 +2025,10 @@
 
         </div>
 
-
     </div>
 
 </div>
+
 
 
 <!-- ==================================================
@@ -1379,6 +2149,371 @@ setInterval(
 updateClock();
 
 
+
+/* ==========================================================
+   COMPTE A REBOURS
+========================================================== */
+
+function convertirHeureEnSecondes(
+    heure
+) {
+
+    const morceaux =
+        heure.split(":");
+
+
+    return (
+        Number(morceaux[0]) * 3600 +
+        Number(morceaux[1]) * 60 +
+        Number(morceaux[2])
+    );
+}
+
+
+function formaterCompteARebours(
+    secondes
+) {
+
+    secondes =
+        Math.max(
+            0,
+            Math.floor(secondes)
+        );
+
+
+    const heures =
+        Math.floor(
+            secondes / 3600
+        );
+
+
+    const minutes =
+        Math.floor(
+            (secondes % 3600) / 60
+        );
+
+
+    const secondesRestantes =
+        secondes % 60;
+
+
+    return (
+
+        String(heures).padStart(
+            2,
+            "0"
+        )
+
+        + ":"
+
+        + String(minutes).padStart(
+            2,
+            "0"
+        )
+
+        + ":"
+
+        + String(
+            secondesRestantes
+        ).padStart(
+            2,
+            "0"
+        )
+    );
+}
+
+
+function updateCountdowns() {
+
+    const now =
+        new Date();
+
+
+    const currentSeconds =
+        now.getHours() * 3600 +
+        now.getMinutes() * 60 +
+        now.getSeconds() +
+        now.getMilliseconds() / 1000;
+
+
+    document
+        .querySelectorAll(
+            ".starter"
+        )
+        .forEach(
+            function(starter) {
+
+                const startTime =
+                    starter.dataset.startTime;
+
+
+                if (!startTime) {
+
+                    return;
+
+                }
+
+
+                const startSeconds =
+                    convertirHeureEnSecondes(
+                        startTime
+                    );
+
+
+                const difference =
+                    startSeconds -
+                    currentSeconds;
+
+
+                /* Le coureur vient de partir :
+                   on le retire immédiatement du tableau. */
+
+                if (difference <= 0) {
+
+                    starter.remove();
+
+                    return;
+
+                }
+
+
+                const countdown =
+                    starter.querySelector(
+                        ".starter-countdown"
+                    );
+
+
+                if (countdown) {
+
+                    countdown.textContent =
+                        "Départ dans " +
+                        formaterCompteARebours(
+                            difference
+                        );
+
+                }
+
+            }
+        );
+}
+
+
+setInterval(
+    updateCountdowns,
+    1000
+);
+
+
+updateCountdowns();
+
+
+
+/* ==========================================================
+   GESTION DYNAMIQUE DES STATUTS
+========================================================== */
+
+function updateManagementStatuses() {
+
+    const now =
+        new Date();
+
+
+    const currentSeconds =
+        now.getHours() * 3600 +
+        now.getMinutes() * 60 +
+        now.getSeconds() +
+        now.getMilliseconds() / 1000;
+
+
+    document
+        .querySelectorAll(
+            ".management-row"
+        )
+        .forEach(
+            function(row) {
+
+                const statut =
+                    row.dataset.statut;
+
+
+                /* Seuls les coureurs "prêts"
+                   peuvent passer dynamiquement
+                   entre PRÊT et EN COURSE. */
+
+                if (statut !== "pret") {
+
+                    return;
+
+                }
+
+
+                const startTime =
+                    row.dataset.startTime;
+
+
+                const statusCell =
+                    row.querySelector(
+                        ".management-status"
+                    );
+
+
+                const dnsAction =
+                    row.querySelector(
+                        ".status-action-dns"
+                    );
+
+
+                const courseActions =
+                    row.querySelectorAll(
+                        ".status-action-course"
+                    );
+
+
+                /* Sans heure de départ :
+                   le coureur reste PRÊT. */
+
+                if (!startTime) {
+
+                    if (statusCell) {
+
+                        statusCell.textContent =
+                            "PRÊT";
+
+                    }
+
+
+                    if (dnsAction) {
+
+                        dnsAction.hidden = false;
+
+                    }
+
+
+                    courseActions.forEach(
+                        function(action) {
+
+                            action.hidden = true;
+
+                        }
+                    );
+
+                    return;
+
+                }
+
+
+                const startSeconds =
+                    convertirHeureEnSecondes(
+                        startTime
+                    );
+
+
+                const enCourse =
+                    startSeconds <=
+                    currentSeconds;
+
+
+                /* Mise à jour du statut affiché */
+
+                if (statusCell) {
+
+                    statusCell.textContent =
+                        enCourse
+                            ? "EN COURSE"
+                            : "PRÊT";
+
+                }
+
+
+                /* Avant le départ :
+                   DNS uniquement. */
+
+                if (dnsAction) {
+
+                    dnsAction.hidden =
+                        enCourse;
+
+                }
+
+
+                /* Après le départ :
+                   DNF + DSQ. */
+
+                courseActions.forEach(
+                    function(action) {
+
+                        action.hidden =
+                            !enCourse;
+
+                    }
+                );
+
+            }
+        );
+}
+
+
+updateManagementStatuses();
+
+
+setInterval(
+    updateManagementStatuses,
+    1000
+);
+
+
+
+/* ==========================================================
+   RECHERCHE COUREURS
+========================================================== */
+
+const managementSearch =
+    document.getElementById(
+        "managementSearch"
+    );
+
+
+if (managementSearch) {
+
+    managementSearch.addEventListener(
+        "input",
+        function() {
+
+            const recherche =
+                this.value
+                    .toLowerCase()
+                    .trim();
+
+
+            document
+                .querySelectorAll(
+                    ".management-row"
+                )
+                .forEach(
+                    function(row) {
+
+                        const texte =
+                            row.dataset.search
+                                .toLowerCase();
+
+
+                        row.style.display =
+                            texte.includes(
+                                recherche
+                            )
+                                ? ""
+                                : "none";
+
+                    }
+                );
+
+        }
+    );
+
+}
+
+
+
 /* ==========================================================
    POPUP ERREUR
 ========================================================== */
@@ -1389,6 +2524,7 @@ function fermerErreur() {
         document.querySelector(
             ".error-popup"
         );
+
 
     const overlay =
         document.querySelector(
@@ -1411,8 +2547,6 @@ function fermerErreur() {
 
 }
 
-
-/* Fermer avec la touche Échap */
 
 document.addEventListener(
     "keydown",

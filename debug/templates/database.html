@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    ChronoLive - Debug Database
+</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+        margin: 0;
+        min-height: 100%;
+
+        font-family:
+            Arial,
+            Helvetica,
+            sans-serif;
+
+        background: #f4f6f8;
+        color: #111827;
+    }
+
+
+    body {
+        padding: 25px;
+    }
+
+
+    .page {
+        width: 100%;
+        max-width: 1800px;
+        margin: 0 auto;
+    }
+
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+
+    .title {
+        margin: 0;
+        font-size: 28px;
+    }
+
+
+    .subtitle {
+        margin: 6px 0 0;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+
+    .debug-badge {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: #fff7ed;
+        color: #9a3412;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+
+    .panel {
+        margin-bottom: 18px;
+        padding: 20px;
+        background: white;
+        border-radius: 14px;
+        box-shadow:
+            0 4px 15px
+            rgba(0, 0, 0, 0.06);
+    }
+
+
+    .panel-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+
+    .panel-title {
+        margin: 0;
+        font-size: 18px;
+    }
+
+
+    .panel-count {
+        color: #6b7280;
+        font-size: 13px;
+    }
+
+
+    .table-wrapper {
+        overflow-x: auto;
+        border:
+            1px solid #e5e7eb;
+        border-radius: 9px;
+    }
+
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 700px;
+    }
+
+
+    th,
+    td {
+        padding: 9px 11px;
+        border-bottom:
+            1px solid #eef0f2;
+        text-align: left;
+        white-space: nowrap;
+        font-size: 12px;
+    }
+
+
+    th {
+        background: #f3f4f6;
+        color: #6b7280;
+        font-size: 11px;
+        font-weight: 700;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+
+    .null {
+        color: #9ca3af;
+        font-style: italic;
+    }
+
+
+    .status {
+        display: inline-block;
+        padding: 3px 7px;
+        border-radius: 999px;
+        background: #f3f4f6;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+
+    .empty {
+        padding: 25px;
+        color: #9ca3af;
+        text-align: center;
+    }
+
+
+    @media (max-width: 700px) {
+
+        body {
+            padding: 12px;
+        }
+
+        .header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<main class="page">
+
+
+    <div class="header">
+
+        <div>
+
+            <h1 class="title">
+                ChronoLive - Debug Database
+            </h1>
+
+            <p class="subtitle">
+                Inspection en lecture seule des données SQLite.
+            </p>
+
+        </div>
+
+        <div class="debug-badge">
+            DEBUG · SERVEUR PRIVÉ
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         COURSES
+    ========================================== -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <h2 class="panel-title">
+                Courses
+            </h2>
+
+            <div class="panel-count">
+                {{ courses|length }} course(s)
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Date</th>
+                        <th>Lieu</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for course in courses %}
+
+                    <tr>
+                        <td>{{ formater_valeur(course.id) }}</td>
+                        <td>{{ formater_valeur(course.nom) }}</td>
+                        <td>{{ formater_valeur(course.date) }}</td>
+                        <td>{{ formater_valeur(course.lieu) }}</td>
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="4" class="empty">
+                            Aucune course.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         COUREURS
+    ========================================== -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <h2 class="panel-title">
+                Coureurs
+            </h2>
+
+            <div class="panel-count">
+                {{ coureurs|length }} coureur(s)
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Dossard</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Sexe</th>
+                        <th>Date naissance</th>
+                        <th>Licence</th>
+                        <th>Club</th>
+                        <th>Catégorie</th>
+                        <th>Catégorie FFC</th>
+                        <th>Heure départ</th>
+                        <th>Heure arrivée</th>
+                        <th>Temps (cs)</th>
+                        <th>Statut</th>
+                        <th>Course ID</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for coureur in coureurs %}
+
+                    <tr>
+
+                        <td>
+                            {{ formater_valeur(coureur.id) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(coureur.dossard) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(coureur.nom) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(coureur.prenom) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(coureur.sexe) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(coureur.date_naissance) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(coureur.licence) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(coureur.club) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(coureur.categorie) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(coureur.categorie_ffc) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(coureur.heure_depart) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(coureur.heure_arrivee) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(coureur.temps_centisecondes) }}
+                        </td>
+
+                        <td>
+                            <span class="status">
+                                {{ formater_valeur(coureur.statut) }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(coureur.course_id) }}
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="15" class="empty">
+                            Aucun coureur.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         ARRIVEES
+    ========================================== -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <h2 class="panel-title">
+                Arrivées
+            </h2>
+
+            <div class="panel-count">
+                {{ arrivees|length }} arrivée(s)
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Timestamp</th>
+                        <th>Dossard coureur</th>
+                        <th>Course ID</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for arrivee in arrivees %}
+
+                    <tr>
+                        <td>
+                            {{ formater_valeur(arrivee.id) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(arrivee.timestamp) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(arrivee.dossard_coureur) }}
+                        </td>
+
+                        <td>
+                            {{ formater_valeur(arrivee.course_id) }}
+                        </td>
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="4" class="empty">
+                            Aucune arrivée.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>

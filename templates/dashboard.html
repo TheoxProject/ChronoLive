@@ -1,0 +1,2322 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    ChronoLive - Dashboard
+</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+        margin: 0;
+        min-height: 100%;
+
+        font-family:
+            Arial,
+            Helvetica,
+            sans-serif;
+
+        background: #f4f6f8;
+        color: #111827;
+    }
+
+
+    body {
+        padding-bottom: 30px;
+    }
+
+
+    /* ==========================================
+       HEADER
+    ========================================== */
+
+    header {
+        min-height: 70px;
+
+        padding:
+            0 30px;
+
+        background: #111827;
+        color: white;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 20px;
+    }
+
+
+    .header-left {
+        display: flex;
+
+        align-items: center;
+
+        gap: 18px;
+    }
+
+
+    .logo {
+        font-size: 24px;
+
+        font-weight: 700;
+    }
+
+
+    .course {
+        padding-left: 18px;
+
+        border-left:
+            1px solid #374151;
+    }
+
+
+    .course-name {
+        font-size: 17px;
+
+        font-weight: 700;
+    }
+
+
+    .course-info {
+        margin-top: 3px;
+
+        color: #9ca3af;
+
+        font-size: 13px;
+    }
+
+
+    .system-status {
+        display: flex;
+
+        align-items: center;
+
+        gap: 9px;
+
+        color: #d1d5db;
+
+        font-size: 13px;
+
+        font-weight: 600;
+    }
+
+
+    .status-dot {
+        width: 10px;
+        height: 10px;
+
+        border-radius: 50%;
+
+        background: #22c55e;
+
+        flex-shrink: 0;
+    }
+
+
+    .status-dot.warning {
+        background: #f59e0b;
+    }
+
+
+    .status-dot.error {
+        background: #ef4444;
+    }
+
+
+    /* ==========================================
+       PAGE
+    ========================================== */
+
+    .page {
+        width: 100%;
+
+        max-width: 1700px;
+
+        margin: 0 auto;
+
+        padding: 25px;
+    }
+
+
+    .page-title {
+        margin: 0;
+
+        font-size: 28px;
+    }
+
+
+    .page-subtitle {
+        margin:
+            6px 0 18px;
+
+        color: #6b7280;
+
+        font-size: 14px;
+    }
+
+
+    /* ==========================================
+       NAVIGATION
+    ========================================== */
+
+    .navigation {
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                4,
+                minmax(0, 1fr)
+            );
+
+        gap: 12px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .navigation-button {
+        min-height: 58px;
+
+        padding:
+            12px 16px;
+
+        border-radius: 10px;
+
+        border:
+            1px solid #e5e7eb;
+
+        background: white;
+
+        color: #111827;
+
+        text-decoration: none;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        text-align: center;
+
+        font-size: 14px;
+
+        font-weight: 700;
+
+        box-shadow:
+            0 2px 8px
+            rgba(0, 0, 0, 0.04);
+
+        transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            transform 0.1s ease;
+    }
+
+
+    .navigation-button:hover {
+        background: #f9fafb;
+
+        border-color:
+            #d1d5db;
+    }
+
+
+    .navigation-button:active {
+        transform:
+            scale(0.98);
+    }
+
+
+    .navigation-button.primary {
+        background: #111827;
+
+        border-color: #111827;
+
+        color: white;
+    }
+
+
+    .navigation-button.primary:hover {
+        background: #1f2937;
+
+        border-color: #1f2937;
+    }
+
+
+    /* ==========================================
+       STATISTIQUES
+    ========================================== */
+
+    .stats-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                4,
+                minmax(0, 1fr)
+            );
+
+        gap: 16px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .stat-card,
+    .panel {
+        background: white;
+
+        border-radius: 14px;
+
+        box-shadow:
+            0 4px 15px
+            rgba(0, 0, 0, 0.06);
+    }
+
+
+    .stat-card {
+        padding: 22px;
+    }
+
+
+    .stat-label {
+        color: #6b7280;
+
+        font-size: 13px;
+
+        font-weight: 600;
+    }
+
+
+    .stat-value {
+        margin-top: 8px;
+
+        font-size: 30px;
+
+        font-weight: 700;
+
+        font-variant-numeric:
+            tabular-nums;
+    }
+
+
+    .stat-detail {
+        margin-top: 5px;
+
+        color: #9ca3af;
+
+        font-size: 12px;
+    }
+
+
+    /* ==========================================
+       COURSE
+    ========================================== */
+
+    .race-grid {
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1.55fr)
+            minmax(320px, 1fr);
+
+        gap: 18px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .panel {
+        padding: 22px;
+    }
+
+
+    .panel-title-row {
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 15px;
+    }
+
+
+    .panel-title {
+        margin: 0;
+
+        font-size: 18px;
+    }
+
+
+    .panel-count {
+        min-width: 38px;
+
+        padding:
+            5px 10px;
+
+        border-radius: 999px;
+
+        background: #f3f4f6;
+
+        color: #374151;
+
+        text-align: center;
+
+        font-size: 13px;
+
+        font-weight: 700;
+    }
+
+
+    .panel-subtitle {
+        margin:
+            5px 0 18px;
+
+        color: #6b7280;
+
+        font-size: 13px;
+
+        line-height: 1.45;
+    }
+
+
+    /* ==========================================
+       TABLEAU COUREURS
+    ========================================== */
+
+    .race-table-container {
+        max-height: 360px;
+
+        overflow-y: auto;
+
+        border:
+            1px solid #e5e7eb;
+
+        border-radius: 9px;
+    }
+
+
+    .race-table {
+        width: 100%;
+
+        border-collapse:
+            collapse;
+    }
+
+
+    .race-table th {
+        position: sticky;
+
+        top: 0;
+
+        z-index: 1;
+
+        background: #f3f4f6;
+
+        color: #6b7280;
+
+        font-size: 11px;
+
+        text-transform:
+            uppercase;
+
+        padding:
+            10px 14px;
+
+        text-align: left;
+    }
+
+
+    .race-table td {
+        padding:
+            11px 14px;
+
+        border-top:
+            1px solid #f0f0f0;
+
+        font-size: 14px;
+    }
+
+
+    .race-bib {
+        width: 90px;
+
+        font-weight: 700;
+    }
+
+
+    .race-name {
+        font-weight: 600;
+    }
+
+
+    .race-start,
+    .race-time {
+        font-variant-numeric:
+            tabular-nums;
+
+        font-weight: 700;
+    }
+
+
+    .race-time {
+        text-align: right;
+    }
+
+
+    .race-empty {
+        padding:
+            24px !important;
+
+        text-align: center;
+
+        color: #9ca3af;
+    }
+
+
+    /* ==========================================
+       STATUTS
+    ========================================== */
+
+    .status-summary {
+        display: flex;
+
+        flex-direction: column;
+    }
+
+
+    .status-row {
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 20px;
+
+        padding:
+            12px 0;
+
+        border-bottom:
+            1px solid #eef0f2;
+    }
+
+
+    .status-row:last-child {
+        border-bottom: none;
+    }
+
+
+    .status-label {
+        font-size: 14px;
+
+        font-weight: 600;
+    }
+
+
+    .status-value {
+        font-size: 18px;
+
+        font-weight: 700;
+
+        font-variant-numeric:
+            tabular-nums;
+    }
+
+
+    /* ==========================================
+       AVANCEMENT + SYSTEME
+    ========================================== */
+
+    .main-grid {
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1.55fr)
+            minmax(320px, 1fr);
+
+        gap: 18px;
+    }
+
+
+    /* ==========================================
+       PROGRESSION
+    ========================================== */
+
+    .progress-value {
+        display: flex;
+
+        align-items: baseline;
+
+        gap: 8px;
+    }
+
+
+    .progress-number {
+        font-size: 46px;
+
+        font-weight: 700;
+
+        font-variant-numeric:
+            tabular-nums;
+    }
+
+
+    .progress-unit {
+        color: #6b7280;
+
+        font-size: 15px;
+    }
+
+
+    .progress-bar {
+        width: 100%;
+
+        height: 14px;
+
+        margin-top: 18px;
+
+        background: #e5e7eb;
+
+        border-radius: 999px;
+
+        overflow: hidden;
+    }
+
+
+    .progress-fill {
+        width: 0%;
+
+        height: 100%;
+
+        background: #22c55e;
+
+        border-radius: 999px;
+
+        transition:
+            width 0.3s ease;
+    }
+
+
+    .progress-caption {
+        margin-top: 10px;
+
+        color: #6b7280;
+
+        font-size: 13px;
+    }
+
+
+    .last-arrival {
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 20px;
+
+        margin-top: 24px;
+
+        padding-top: 18px;
+
+        border-top:
+            1px solid #e5e7eb;
+    }
+
+
+    .last-arrival-label {
+        color: #6b7280;
+
+        font-size: 13px;
+    }
+
+
+    .last-arrival-value {
+        font-size: 22px;
+
+        font-weight: 700;
+
+        font-variant-numeric:
+            tabular-nums;
+    }
+
+
+    /* ==========================================
+       SURVEILLANCE SYSTEME
+    ========================================== */
+
+    .system-list {
+        display: flex;
+
+        flex-direction: column;
+    }
+
+
+    .system-row {
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 20px;
+
+        padding:
+            14px 0;
+
+        border-bottom:
+            1px solid #eef0f2;
+    }
+
+
+    .system-row:last-child {
+        border-bottom: none;
+    }
+
+
+    .system-name {
+        font-size: 14px;
+
+        font-weight: 600;
+    }
+
+
+    .system-value {
+        display: flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        color: #6b7280;
+
+        font-size: 13px;
+
+        text-align: right;
+    }
+
+
+    .system-indicator {
+        width: 9px;
+        height: 9px;
+
+        border-radius: 50%;
+
+        background: #22c55e;
+
+        flex-shrink: 0;
+    }
+
+
+    .system-indicator.error {
+        background: #ef4444;
+    }
+
+
+    .system-indicator.warning {
+        background: #f59e0b;
+    }
+
+
+    .alert {
+        margin-top: 16px;
+
+        padding:
+            12px 14px;
+
+        border-radius: 9px;
+
+        background: #fff7ed;
+
+        color: #9a3412;
+
+        font-size: 13px;
+
+        line-height: 1.45;
+    }
+
+
+    .alert.hidden {
+        display: none;
+    }
+
+
+    /* ==========================================
+       FOOTER
+    ========================================== */
+
+    .footer {
+        display: flex;
+
+        justify-content:
+            space-between;
+
+        gap: 20px;
+
+        margin-top: 18px;
+
+        color: #7b8794;
+
+        font-size: 12px;
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1000px) {
+
+        .stats-grid {
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
+        }
+
+
+        .race-grid,
+        .main-grid {
+            grid-template-columns:
+                1fr;
+        }
+
+
+        .navigation {
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
+        }
+
+    }
+
+
+    @media (max-width: 650px) {
+
+        header {
+            padding:
+                0 18px;
+        }
+
+
+        .course {
+            display: none;
+        }
+
+
+        .page {
+            padding:
+                18px 12px;
+        }
+
+
+        .stats-grid {
+            grid-template-columns:
+                1fr;
+        }
+
+
+        .navigation {
+            grid-template-columns:
+                1fr;
+        }
+
+
+        .footer {
+            flex-direction:
+                column;
+        }
+
+
+        .race-table th,
+        .race-table td {
+            padding:
+                9px 10px;
+        }
+
+    }
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-left">
+
+        <div class="logo">
+            ChronoLive
+        </div>
+
+
+        <div class="course">
+
+            <div
+                class="course-name"
+                id="courseName"
+            >
+                Course
+            </div>
+
+
+            <div
+                class="course-info"
+                id="courseInfo"
+            >
+                —
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="system-status">
+
+        <span
+            class="status-dot"
+            id="headerStatusDot"
+        ></span>
+
+
+        <span
+            id="headerStatusText"
+        >
+            Vérification du système...
+        </span>
+
+    </div>
+
+</header>
+
+
+<main class="page">
+
+
+<h1 class="page-title">
+    Tableau de bord
+</h1>
+
+
+<p class="page-subtitle">
+    Suivi de la course et surveillance du système en temps réel.
+</p>
+
+
+<!-- ==========================================
+     NAVIGATION
+========================================== -->
+
+<nav class="navigation">
+
+
+    <a
+        class="navigation-button primary"
+        href="{{ url_for('inscription.inscription') }}"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        Inscriptions
+    </a>
+
+
+    <a
+        class="navigation-button primary"
+        href="{{ url_for('chronometrage.chronometrage') }}"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        Chronométrage
+    </a>
+
+
+    <a
+        class="navigation-button primary"
+        href="{{ url_for('classement_live.classement_live') }}"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        Classement live
+    </a>
+
+
+    <a
+        class="navigation-button primary"
+        href="{{ url_for('resultats.page_resultats') }}"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        Résultats / exports
+    </a>
+
+</nav>
+
+
+<!-- ==========================================
+     STATISTIQUES
+========================================== -->
+
+<section class="stats-grid">
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            Coureurs inscrits
+        </div>
+
+
+        <div
+            class="stat-value"
+            id="totalCoureurs"
+        >
+            —
+        </div>
+
+
+        <div class="stat-detail">
+            dans la course
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            Coureurs prêts à partir
+        </div>
+
+
+        <div
+            class="stat-value"
+            id="coureursPrets"
+        >
+            —
+        </div>
+
+
+        <div class="stat-detail">
+            départ à venir
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            Arrivées classées
+        </div>
+
+
+        <div
+            class="stat-value"
+            id="arriveesClassees"
+        >
+            —
+        </div>
+
+
+        <div class="stat-detail">
+            coureurs avec un temps
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            Arrivées à associer
+        </div>
+
+
+        <div
+            class="stat-value"
+            id="arriveesEnAttente"
+        >
+            —
+        </div>
+
+
+        <div class="stat-detail">
+            arrivées sans dossard
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     COUREURS + STATUTS
+========================================== -->
+
+<section class="race-grid">
+
+
+    <!-- ======================================
+         COUREURS EN COURSE
+    ====================================== -->
+
+    <div class="panel">
+
+        <div class="panel-title-row">
+
+            <h2 class="panel-title">
+                Coureurs encore en course
+            </h2>
+
+
+            <div
+                class="panel-count"
+                id="nombreEnCourse"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <p class="panel-subtitle">
+            Coureurs dont le départ est passé
+            et qui n'ont pas encore terminé.
+        </p>
+
+
+        <div class="race-table-container">
+
+            <table class="race-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Dossard
+                        </th>
+
+
+                        <th>
+                            Coureur
+                        </th>
+
+
+                        <th>
+                            Départ
+                        </th>
+
+
+                        <th>
+                            Temps
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="raceBody">
+
+                    <tr>
+
+                        <td
+                            colspan="4"
+                            class="race-empty"
+                        >
+                            Aucun coureur encore en course.
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================
+         RECAPITULATIF DES STATUTS
+    ====================================== -->
+
+    <div class="panel">
+
+        <h2 class="panel-title">
+            Récapitulatif des statuts
+        </h2>
+
+
+        <p class="panel-subtitle">
+            État actuel des coureurs de la course.
+        </p>
+
+
+        <div class="status-summary">
+
+
+            <div class="status-row">
+
+                <div class="status-label">
+                    Inscrits
+                </div>
+
+
+                <div
+                    class="status-value"
+                    id="statutInscrit"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="status-row">
+
+                <div class="status-label">
+                    Prêts à partir
+                </div>
+
+
+                <div
+                    class="status-value"
+                    id="statutPret"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="status-row">
+
+                <div class="status-label">
+                    En course
+                </div>
+
+
+                <div
+                    class="status-value"
+                    id="statutEnCourse"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="status-row">
+
+                <div class="status-label">
+                    Arrivés
+                </div>
+
+
+                <div
+                    class="status-value"
+                    id="statutArrive"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="status-row">
+
+                <div class="status-label">
+                    DNS
+                </div>
+
+
+                <div
+                    class="status-value"
+                    id="statutDns"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="status-row">
+
+                <div class="status-label">
+                    DNF
+                </div>
+
+
+                <div
+                    class="status-value"
+                    id="statutDnf"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="status-row">
+
+                <div class="status-label">
+                    DSQ
+                </div>
+
+
+                <div
+                    class="status-value"
+                    id="statutDsq"
+                >
+                    —
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     AVANCEMENT + SYSTEME
+========================================== -->
+
+<section class="main-grid">
+
+
+    <!-- ======================================
+         AVANCEMENT COURSE
+    ====================================== -->
+
+    <div class="panel">
+
+        <h2 class="panel-title">
+            Avancement de la course
+        </h2>
+
+
+        <p class="panel-subtitle">
+            Suivi de l'avancement des arrivées classées.
+        </p>
+
+
+        <div class="progress-value">
+
+            <div
+                class="progress-number"
+                id="progression"
+            >
+                0
+            </div>
+
+
+            <div class="progress-unit">
+                %
+            </div>
+
+        </div>
+
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="progressFill"
+            ></div>
+
+        </div>
+
+
+        <div
+            class="progress-caption"
+            id="progressCaption"
+        >
+            0 coureur classé
+        </div>
+
+
+        <div class="last-arrival">
+
+            <div class="last-arrival-label">
+                Dernière arrivée enregistrée
+            </div>
+
+
+            <div
+                class="last-arrival-value"
+                id="derniereArrivee"
+            >
+                —
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================
+         SURVEILLANCE SYSTEME
+    ====================================== -->
+
+    <div class="panel">
+
+        <h2 class="panel-title">
+            Surveillance du système
+        </h2>
+
+
+        <p class="panel-subtitle">
+            État des composants nécessaires au fonctionnement
+            de ChronoLive.
+        </p>
+
+
+        <div class="system-list">
+
+
+            <div class="system-row">
+
+                <div class="system-name">
+                    Base de données
+                </div>
+
+
+                <div class="system-value">
+
+                    <span
+                        class="system-indicator"
+                        id="dbIndicator"
+                    ></span>
+
+
+                    <span id="dbValue">
+                        Vérification...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="system-row">
+
+                <div class="system-name">
+                    Serveur public
+                </div>
+
+
+                <div class="system-value">
+
+                    <span
+                        class="system-indicator"
+                        id="publicIndicator"
+                    ></span>
+
+
+                    <span id="publicValue">
+                        Vérification...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="system-row">
+
+                <div class="system-name">
+                    Classement live
+                </div>
+
+
+                <div class="system-value">
+
+                    <span
+                        class="system-indicator"
+                        id="sseIndicator"
+                    ></span>
+
+
+                    <span id="sseValue">
+                        Vérification...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="system-row">
+
+                <div class="system-name">
+                    Uptime application
+                </div>
+
+
+                <div class="system-value">
+
+                    <span id="uptimeValue">
+                        —
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="alert hidden"
+            id="systemAlert"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<div class="footer">
+
+    <div>
+        ChronoLive · Dashboard V2
+    </div>
+
+
+    <div>
+
+        Dernière mise à jour :
+
+        <span id="updateTime">
+            —
+        </span>
+
+    </div>
+
+</div>
+
+
+</main>
+
+
+<script>
+
+
+const dashboardDataUrl =
+    "{{ url_for('dashboard.dashboard_data') }}";
+
+
+let coureursEnCourseActuels = [];
+
+
+/* ==========================================
+   FORMATAGE TEMPS
+========================================== */
+
+function formaterTemps(secondes) {
+
+    secondes =
+        Math.max(
+            0,
+            Math.floor(secondes)
+        );
+
+
+    const heures =
+        Math.floor(
+            secondes / 3600
+        );
+
+
+    const minutes =
+        Math.floor(
+            (secondes % 3600) / 60
+        );
+
+
+    const secondesRestantes =
+        secondes % 60;
+
+
+    return (
+        String(heures).padStart(2, "0")
+        + ":"
+        + String(minutes).padStart(2, "0")
+        + ":"
+        + String(secondesRestantes).padStart(2, "0")
+    );
+
+}
+
+
+/* ==========================================
+   CALCUL TEMPS EN COURSE
+========================================== */
+
+function calculerTempsEnCourse(
+    heureDepart
+) {
+
+    if (!heureDepart) {
+        return "00:00:00";
+    }
+
+
+    const morceaux =
+        heureDepart.split(":");
+
+
+    if (morceaux.length < 2) {
+        return "00:00:00";
+    }
+
+
+    const heure =
+        Number(
+            morceaux[0]
+        );
+
+
+    const minute =
+        Number(
+            morceaux[1]
+        );
+
+
+    const seconde =
+        Number(
+            morceaux[2] || 0
+        );
+
+
+    const maintenant =
+        new Date();
+
+
+    const depart =
+        new Date(
+            maintenant
+        );
+
+
+    depart.setHours(
+        heure,
+        minute,
+        seconde,
+        0
+    );
+
+
+    let difference =
+        (
+            maintenant.getTime()
+            - depart.getTime()
+        ) / 1000;
+
+
+    if (difference < 0) {
+        difference = 0;
+    }
+
+
+    return formaterTemps(
+        difference
+    );
+
+}
+
+
+/* ==========================================
+   MISE A JOUR TEMPS EN COURSE
+========================================== */
+
+function mettreAJourTempsEnCourse() {
+
+    document
+        .querySelectorAll(
+            ".race-time[data-depart]"
+        )
+        .forEach(
+            function(element) {
+
+                element.textContent =
+                    calculerTempsEnCourse(
+                        element.dataset.depart
+                    );
+
+            }
+        );
+
+}
+
+
+/* ==========================================
+   INDICATEUR SYSTEME
+========================================== */
+
+function setIndicator(
+    indicatorId,
+    valueId,
+    ok,
+    okText,
+    errorText
+) {
+
+    const indicator =
+        document.getElementById(
+            indicatorId
+        );
+
+
+    const value =
+        document.getElementById(
+            valueId
+        );
+
+
+    indicator.classList.remove(
+        "error",
+        "warning"
+    );
+
+
+    if (ok) {
+
+        value.textContent =
+            okText;
+
+    } else {
+
+        indicator.classList.add(
+            "error"
+        );
+
+        value.textContent =
+            errorText;
+
+    }
+
+}
+
+
+/* ==========================================
+   MISE A JOUR DU DASHBOARD
+========================================== */
+
+function mettreAJourDashboard(
+    data
+) {
+
+    const course =
+        data.course;
+
+
+    const stats =
+        data.course_stats;
+
+
+    const systeme =
+        data.systeme;
+
+
+    if (!stats) {
+        return;
+    }
+
+
+    /* ------------------------------------------
+       COURSE
+    ------------------------------------------ */
+
+    if (course) {
+
+        document.getElementById(
+            "courseName"
+        ).textContent =
+            course.nom || "Course";
+
+
+        const infos = [];
+
+
+        if (course.lieu) {
+
+            infos.push(
+                course.lieu
+            );
+
+        }
+
+
+        if (course.date) {
+
+            infos.push(
+                course.date
+            );
+
+        }
+
+
+        document.getElementById(
+            "courseInfo"
+        ).textContent =
+            infos.join(" · ") || "—";
+
+    }
+
+
+    /* ------------------------------------------
+       STATISTIQUES
+    ------------------------------------------ */
+
+    document.getElementById(
+        "totalCoureurs"
+    ).textContent =
+        stats.total_coureurs;
+
+
+    document.getElementById(
+        "coureursPrets"
+    ).textContent =
+        stats.coureurs_prets;
+
+
+    document.getElementById(
+        "arriveesClassees"
+    ).textContent =
+        stats.arrivees_classees;
+
+
+    document.getElementById(
+        "arriveesEnAttente"
+    ).textContent =
+        stats.arrivees_en_attente;
+
+
+    /* ------------------------------------------
+       COUREURS EN COURSE
+    ------------------------------------------ */
+
+    coureursEnCourseActuels =
+        stats.coureurs_en_course || [];
+
+
+    const raceBody =
+        document.getElementById(
+            "raceBody"
+        );
+
+
+    const nombreEnCourse =
+        coureursEnCourseActuels.length;
+
+
+    document.getElementById(
+        "nombreEnCourse"
+    ).textContent =
+        nombreEnCourse;
+
+
+    document.getElementById(
+        "statutEnCourse"
+    ).textContent =
+        nombreEnCourse;
+
+
+    raceBody.innerHTML = "";
+
+
+    if (
+        coureursEnCourseActuels.length === 0
+    ) {
+
+        raceBody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="4"
+                    class="race-empty"
+                >
+                    Aucun coureur encore en course.
+                </td>
+
+            </tr>
+
+        `;
+
+    } else {
+
+        coureursEnCourseActuels.forEach(
+            function(coureur) {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td class="race-bib">
+                        #${coureur.dossard}
+                    </td>
+
+                    <td class="race-name">
+                        ${coureur.prenom}
+                        ${coureur.nom}
+                    </td>
+
+                    <td class="race-start">
+                        ${coureur.heure_depart}
+                    </td>
+
+                    <td
+                        class="race-time"
+                        data-depart="${coureur.heure_depart}"
+                    >
+                        ${calculerTempsEnCourse(
+                            coureur.heure_depart
+                        )}
+                    </td>
+
+                `;
+
+
+                raceBody.appendChild(
+                    row
+                );
+
+            }
+        );
+
+    }
+
+
+    /* ------------------------------------------
+       RECAPITULATIF DES STATUTS
+    ------------------------------------------ */
+
+    const statuts =
+        stats.statuts || {};
+
+
+    document.getElementById(
+        "statutInscrit"
+    ).textContent =
+        statuts.inscrit ?? 0;
+
+
+    document.getElementById(
+        "statutPret"
+    ).textContent =
+        statuts.pret ?? 0;
+
+
+    document.getElementById(
+        "statutArrive"
+    ).textContent =
+        statuts.arrive ?? 0;
+
+
+    document.getElementById(
+        "statutDns"
+    ).textContent =
+        statuts.dns ?? 0;
+
+
+    document.getElementById(
+        "statutDnf"
+    ).textContent =
+        statuts.dnf ?? 0;
+
+
+    document.getElementById(
+        "statutDsq"
+    ).textContent =
+        statuts.dsq ?? 0;
+
+
+    /* ------------------------------------------
+       PROGRESSION
+    ------------------------------------------ */
+
+    const progression =
+        Number(
+            stats.progression || 0
+        );
+
+
+    document.getElementById(
+        "progression"
+    ).textContent =
+        progression.toFixed(1);
+
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        `${Math.min(
+            progression,
+            100
+        )}%`;
+
+
+    document.getElementById(
+        "progressCaption"
+    ).textContent =
+        `${stats.arrivees_classees} coureur`
+        + `${stats.arrivees_classees > 1 ? "s" : ""}`
+        + ` classé`
+        + `${stats.arrivees_classees > 1 ? "s" : ""}`;
+
+
+    document.getElementById(
+        "derniereArrivee"
+    ).textContent =
+        data.derniere_arrivee || "—";
+
+
+    /* ------------------------------------------
+       BASE DE DONNEES
+    ------------------------------------------ */
+
+    setIndicator(
+        "dbIndicator",
+        "dbValue",
+        Boolean(
+            data.database
+        ),
+        "Opérationnelle",
+        "Erreur"
+    );
+
+
+    /* ------------------------------------------
+       SERVEUR PUBLIC
+    ------------------------------------------ */
+
+    const serveurPublicOk =
+        Boolean(
+            systeme
+            && systeme.serveur_public
+        );
+
+
+    setIndicator(
+        "publicIndicator",
+        "publicValue",
+        serveurPublicOk,
+        "Accessible",
+        "Indisponible"
+    );
+
+
+    /* ------------------------------------------
+       SSE
+    ------------------------------------------ */
+
+    const sseClients =
+        systeme
+            ? Number(
+                systeme.sse_clients || 0
+            )
+            : 0;
+
+
+    const sseIndicator =
+        document.getElementById(
+            "sseIndicator"
+        );
+
+
+    const sseValue =
+        document.getElementById(
+            "sseValue"
+        );
+
+
+    sseIndicator.classList.remove(
+        "error",
+        "warning"
+    );
+
+
+    if (
+        sseClients > 0
+    ) {
+
+        sseValue.textContent =
+            `${sseClients} client`
+            + `${sseClients > 1 ? "s" : ""}`
+            + ` connecté`
+            + `${sseClients > 1 ? "s" : ""}`;
+
+    } else {
+
+        sseIndicator.classList.add(
+            "warning"
+        );
+
+        sseValue.textContent =
+            "Aucun client connecté";
+
+    }
+
+
+    /* ------------------------------------------
+       UPTIME
+    ------------------------------------------ */
+
+    document.getElementById(
+        "uptimeValue"
+    ).textContent =
+        systeme
+            ? systeme.uptime
+            : "—";
+
+
+    /* ------------------------------------------
+       ETAT GLOBAL
+    ------------------------------------------ */
+
+    const headerDot =
+        document.getElementById(
+            "headerStatusDot"
+        );
+
+
+    const headerText =
+        document.getElementById(
+            "headerStatusText"
+        );
+
+
+    const alertBox =
+        document.getElementById(
+            "systemAlert"
+        );
+
+
+    headerDot.classList.remove(
+        "warning",
+        "error"
+    );
+
+
+    const problemes = [];
+
+
+    if (!data.database) {
+
+        problemes.push(
+            "La base de données rencontre une erreur."
+        );
+
+    }
+
+
+    if (!serveurPublicOk) {
+
+        problemes.push(
+            "Le serveur public sur le port 5000 est inaccessible."
+        );
+
+    }
+
+
+    if (
+        Number(
+            stats.arrivees_en_attente || 0
+        ) > 0
+    ) {
+
+        problemes.push(
+            `${stats.arrivees_en_attente}`
+            + " arrivée(s) attend(ent) une association."
+        );
+
+    }
+
+
+    if (!data.database) {
+
+        headerDot.classList.add(
+            "error"
+        );
+
+        headerText.textContent =
+            "Erreur système";
+
+    } else if (
+        !serveurPublicOk
+    ) {
+
+        headerDot.classList.add(
+            "error"
+        );
+
+        headerText.textContent =
+            "Serveur public indisponible";
+
+    } else {
+
+        headerText.textContent =
+            "Système opérationnel";
+
+    }
+
+
+    if (
+        problemes.length > 0
+    ) {
+
+        alertBox.classList.remove(
+            "hidden"
+        );
+
+        alertBox.innerHTML =
+            problemes.join(
+                "<br>"
+            );
+
+    } else {
+
+        alertBox.classList.add(
+            "hidden"
+        );
+
+        alertBox.textContent =
+            "";
+
+    }
+
+
+    document.getElementById(
+        "updateTime"
+    ).textContent =
+        data.horodatage || "—";
+
+}
+
+
+/* ==========================================
+   CHARGEMENT
+========================================== */
+
+async function chargerDashboard() {
+
+    try {
+
+        const response =
+            await fetch(
+                dashboardDataUrl,
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Réponse HTTP invalide"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        mettreAJourDashboard(
+            data
+        );
+
+
+    } catch (erreur) {
+
+        const dot =
+            document.getElementById(
+                "headerStatusDot"
+            );
+
+
+        dot.classList.remove(
+            "warning"
+        );
+
+
+        dot.classList.add(
+            "error"
+        );
+
+
+        document.getElementById(
+            "headerStatusText"
+        ).textContent =
+            "Dashboard indisponible";
+
+    }
+
+}
+
+
+/* ==========================================
+   INITIALISATION
+========================================== */
+
+chargerDashboard();
+
+
+setInterval(
+    chargerDashboard,
+    2000
+);
+
+
+setInterval(
+    mettreAJourTempsEnCourse,
+    1000
+);
+
+
+</script>
+
+</body>
+
+</html>

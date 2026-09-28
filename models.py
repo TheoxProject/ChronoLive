@@ -1,18 +1,36 @@
+#-----------
+# MODÈLES DE DONNÉES
+#-----------
+# Définition des tables SQLAlchemy utilisées
+# par ChronoLive et de leurs relations.
+#
+# Tables :
+# - Course
+# - Coureur
+# - Arrivee
+#-----------
+
 from datetime import datetime
 
 from sqlalchemy import (
     Column,
     Date,
+    DateTime,
     ForeignKey,
     Integer,
     String,
     Time,
-    DateTime
 )
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.orm import (
+    DeclarativeBase,
+    Mapped,
+    mapped_column,
+    relationship,
+)
+
+from config import STATUT_INSCRIT
 
 
-# Classe de base de tous nos modèles SQLAlchemy
 class Base(DeclarativeBase):
     pass
 
@@ -21,8 +39,11 @@ class Course(Base):
     __tablename__ = "courses"
 
     id = Column(Integer, primary_key=True)
+
     nom = Column(String, nullable=False)
+
     date = Column(Date, nullable=False)
+
     lieu = Column(String, nullable=True)
 
     coureurs = relationship(
@@ -36,43 +57,49 @@ class Coureur(Base):
 
     id = Column(Integer, primary_key=True)
 
-    # ========================================================
-    # INFORMATIONS PERSONNELLES
-    # ========================================================
-
     nom = Column(String, nullable=False)
+
     prenom = Column(String, nullable=False)
+
     sexe = Column(String, nullable=False)
+
     date_naissance = Column(Date, nullable=False)
 
-    # ========================================================
-    # INFORMATIONS SPORTIVES
-    # ========================================================
-
     licence = Column(String, nullable=True)
+
     club = Column(String, nullable=True)
+
     categorie = Column(String, nullable=False)
+
     categorie_ffc = Column(String, nullable=True)
-    
-    # ========================================================
-    # INFORMATIONS COURSE
-    # ========================================================
 
-    dossard = Column(Integer, unique=True, nullable=True)
-    heure_depart = Column(Time, nullable=True)
+    dossard = Column(
+        Integer,
+        unique=True,
+        nullable=True
+    )
 
-    # Résultats
-    heure_arrivee = Column(DateTime, nullable=True)
-    temps_centisecondes = Column(Integer, nullable=True)
+    heure_depart = Column(
+        Time,
+        nullable=True
+    )
 
-    # Statut du coureur
+    heure_arrivee = Column(
+        Time,
+        nullable=True
+    )
+
+    temps_centisecondes = Column(
+        Integer,
+        nullable=True
+    )
+
     statut = Column(
         String,
         nullable=False,
-        default="inscrit"
+        default= STATUT_INSCRIT
     )
 
-    # Les coureurs participe à une course
     course_id = Column(
         Integer,
         ForeignKey("courses.id"),
@@ -92,13 +119,11 @@ class Arrivee(Base):
         primary_key=True
     )
 
-    # Heure exacte enregistrée par le chronomètre
     timestamp: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False
     )
 
-    # Dossard associé après identification
     dossard_coureur: Mapped[int | None] = mapped_column(
         Integer,
         nullable=True,

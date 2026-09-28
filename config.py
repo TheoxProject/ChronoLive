@@ -25,6 +25,40 @@ COURSE = CourseConfig(
     lieu = "Thonon Les Bains"
 )
 
+#-----------
+# STATUTS DES COUREURS
+#-----------
+# Etats officiels enregistrés dans la base de données.
+# "en_course" n'est pas stocké : il est déduit de l'heure de départ et du statut "pret".
+
+STATUT_INSCRIT = "inscrit"
+STATUT_PRET = "pret"  # Dossard + heure de départ
+STATUT_ARRIVE = "arrive"
+STATUT_DNS = "dns"
+STATUT_DNF = "dnf"
+STATUT_DSQ = "dsq"
+
+STATUTS = (
+    STATUT_INSCRIT,
+    STATUT_PRET,
+    STATUT_ARRIVE,
+    STATUT_DNS,
+    STATUT_DNF,
+    STATUT_DSQ,
+)
+
+#-----------
+# STATUTS PRIS EN COMPTE DANS LE CLASSEMENT
+#-----------
+# Les coureurs arrivés sont classés par temps.
+# Les statuts spéciaux sont ensuite affichés en bas.
+#-----------
+STATUTS_CLASSEMENT = (
+    STATUT_ARRIVE,
+    STATUT_DNF,
+    STATUT_DNS,
+    STATUT_DSQ,
+)
 
 
 # Catégories récompensées, disponibles pour les inscriptions
@@ -52,6 +86,11 @@ CATEGORIES_FFC = [
     "Open3",
     "Elite",
 ]
+
+
+
+
+
 
 
 # URL publique du classement via Tailscale Funnel

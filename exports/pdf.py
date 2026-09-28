@@ -143,7 +143,8 @@ def formater_ecart(
 
 def exporter_pdf(
     resultat,
-    titre
+    titre,
+    course
 ):
 
     sortie = io.BytesIO()
@@ -391,7 +392,7 @@ def exporter_pdf(
             [
 
                 Paragraph(
-                    "ChronoLive",
+                    f"{course.nom} · {course.date.strftime('%d/%m/%Y')}",
                     style_logo
                 ),
 
