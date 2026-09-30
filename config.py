@@ -1,38 +1,50 @@
 # ============================================================
 # CONFIGURATION CHRONOLIVE
 # ============================================================
-from dataclasses import dataclass
-from datetime import date
 
-# Séparation des routes pour plus de sécurité, les spectateur ne doivent pas avoir accès au logiciel de gestion de la course
-PORT_PUBLIC = 5000  # classement public, accessible par internet via Tailscale Funnel
-PORT_PRIVE = 5001   # administration et chronométrage, accessible uniquement depuis le PC de course
-
-# Nom de la database
-DATABASE_URL = "sqlite:///chronolive.db"
-
-@dataclass
-class CourseConfig:
-
-    nom: str
-    date: date
-    lieu: str
+from pathlib import Path
 
 
-COURSE = CourseConfig(
-    nom = "CLM de l'OMS",
-    date = date(2026, 9, 20),
-    lieu = "Thonon Les Bains"
+# ------------------------------------------------------------
+# SERVEURS
+# ------------------------------------------------------------
+
+PORT_PUBLIC = 5000
+PORT_PRIVE = 5001
+
+
+# ------------------------------------------------------------
+# BASES DE DONNÉES
+# ------------------------------------------------------------
+
+# Répertoire de base de ChronoLive.
+BASE_DIR = Path(__file__).resolve().parent
+
+# Toutes les bases SQLite des courses sont stockées ici.
+COURSES_DIR = BASE_DIR / "courses"
+
+
+# ------------------------------------------------------------
+# TYPES DE COURSE
+# ------------------------------------------------------------
+
+TYPE_CLM = "CLM"
+TYPE_GRIMPEE = "Grimpée"
+TYPE_CRITERIUM = "Critérium"
+
+TYPES_COURSE = (
+    TYPE_CLM,
+    TYPE_GRIMPEE,
+    TYPE_CRITERIUM,
 )
 
-#-----------
+
+# ------------------------------------------------------------
 # STATUTS DES COUREURS
-#-----------
-# Etats officiels enregistrés dans la base de données.
-# "en_course" n'est pas stocké : il est déduit de l'heure de départ et du statut "pret".
+# ------------------------------------------------------------
 
 STATUT_INSCRIT = "inscrit"
-STATUT_PRET = "pret"  # Dossard + heure de départ
+STATUT_PRET = "pret"
 STATUT_ARRIVE = "arrive"
 STATUT_DNS = "dns"
 STATUT_DNF = "dnf"
@@ -47,12 +59,11 @@ STATUTS = (
     STATUT_DSQ,
 )
 
-#-----------
+
+# ------------------------------------------------------------
 # STATUTS PRIS EN COMPTE DANS LE CLASSEMENT
-#-----------
-# Les coureurs arrivés sont classés par temps.
-# Les statuts spéciaux sont ensuite affichés en bas.
-#-----------
+# ------------------------------------------------------------
+
 STATUTS_CLASSEMENT = (
     STATUT_ARRIVE,
     STATUT_DNF,
@@ -61,7 +72,10 @@ STATUTS_CLASSEMENT = (
 )
 
 
-# Catégories récompensées, disponibles pour les inscriptions
+# ------------------------------------------------------------
+# CATÉGORIES
+# ------------------------------------------------------------
+
 CATEGORIES = [
     "U15",
     "U17",
@@ -72,7 +86,7 @@ CATEGORIES = [
     "NL",
 ]
 
-# Catégories FFC disponibles pour les inscriptions
+
 CATEGORIES_FFC = [
     "U15",
     "U17",
@@ -88,12 +102,10 @@ CATEGORIES_FFC = [
 ]
 
 
+# ------------------------------------------------------------
+# URL PUBLIQUE
+# ------------------------------------------------------------
 
-
-
-
-
-# URL publique du classement via Tailscale Funnel
 URL_CLASSEMENT_PUBLIC = (
     "https://theoxzenbook.tail7f7f8c.ts.net/"
     "classement_live"

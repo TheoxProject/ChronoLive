@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        ChronoLive - Gestion des courses
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f4f6f8;
+            color: #111827;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+
+            padding: 45px;
+        }
+
+        .header {
+            text-align: center;
+
+            margin-bottom: 45px;
+        }
+
+        .logo {
+            font-size: 42px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            margin-top: 12px;
+
+            color: #6b7280;
+
+            font-size: 20px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+
+            gap: 18px;
+
+            margin-bottom: 40px;
+        }
+
+        .button {
+            display: inline-block;
+
+            padding: 16px 28px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-size: 17px;
+            font-weight: 700;
+
+            border: 1px solid #d1d5db;
+
+            background: white;
+            color: #111827;
+        }
+
+        .button.primary {
+            background: #111827;
+            color: white;
+
+            border-color: #111827;
+        }
+
+        .courses {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 16px;
+        }
+
+        .course {
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 24px 26px;
+
+            box-shadow:
+                0 4px 14px
+                rgba(0, 0, 0, 0.07);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 25px;
+        }
+
+        .course-name {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .course-info {
+            margin-top: 8px;
+
+            color: #6b7280;
+
+            font-size: 16px;
+
+            line-height: 1.5;
+        }
+
+        .course-actions {
+            display: flex;
+
+            gap: 10px;
+
+            flex-shrink: 0;
+        }
+
+        .course-actions .button {
+            padding:
+                13px 20px;
+
+            font-size: 16px;
+        }
+
+        .empty {
+            padding: 45px;
+
+            background: white;
+
+            border-radius: 14px;
+
+            text-align: center;
+
+            color: #6b7280;
+
+            font-size: 18px;
+
+            line-height: 1.6;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- ------------------------------------------------
+         EN-TÊTE
+    ------------------------------------------------- -->
+
+    <div class="header">
+
+        <div class="logo">
+            ChronoLive
+        </div>
+
+        <div class="subtitle">
+            Gestion des courses
+        </div>
+
+    </div>
+
+
+    <!-- ------------------------------------------------
+         ACTION PRINCIPALE
+    ------------------------------------------------- -->
+
+    <div class="actions">
+
+        <a
+            href="{{ url_for('nouvelle_course') }}"
+            class="button primary"
+        >
+            Nouvelle course
+        </a>
+
+    </div>
+
+
+    <!-- ------------------------------------------------
+         LISTE DES COURSES
+    ------------------------------------------------- -->
+
+    {% if courses %}
+
+        <div class="courses">
+
+            {% for course in courses %}
+
+                <div class="course">
+
+                    <div>
+
+                        <div class="course-name">
+
+                            {{ course.nom }}
+
+                        </div>
+
+                        <div class="course-info">
+
+                            {{ course.date.strftime("%d/%m/%Y") }}
+
+                            {% if course.lieu %}
+
+                                — {{ course.lieu }}
+
+                            {% endif %}
+
+                            — {{ course.type_course }}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="course-actions">
+
+                        <a
+                            href="{{ url_for(
+                                'modifier_course',
+                                nom_fichier=course.fichier.name
+                            ) }}"
+                            class="button"
+                        >
+                            Modifier
+                        </a>
+
+                        <a
+                            href="{{ url_for(
+                                'charger_course',
+                                nom_fichier=course.fichier.name
+                            ) }}"
+                            class="button primary"
+                        >
+                            Charger
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty">
+
+            Aucune course enregistrée.
+
+            <br><br>
+
+            Créez votre première course pour commencer.
+
+        </div>
+
+    {% endif %}
+
+
+</div>
+
+</body>
+
+</html>
+

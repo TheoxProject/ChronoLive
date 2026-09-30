@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        ChronoLive - Nouvelle course
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f4f6f8;
+            color: #111827;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+
+            padding: 30px;
+        }
+
+        .card {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.06);
+        }
+
+        h1 {
+            margin-top: 0;
+
+            text-align: center;
+
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        input,
+        select {
+            width: 100%;
+
+            padding: 11px 12px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            background: white;
+        }
+
+        .actions {
+            margin-top: 28px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+        }
+
+        button,
+        .button {
+            width: 100%;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            cursor: pointer;
+        }
+
+        button {
+            border: 1px solid #111827;
+
+            background: #111827;
+            color: white;
+        }
+
+        .button {
+            border:
+                1px solid #d1d5db;
+
+            background: white;
+            color: #111827;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>
+            Nouvelle course
+        </h1>
+
+
+        <form
+            method="POST"
+            action="{{ url_for('creer_course') }}"
+        >
+
+            <div class="form-group">
+
+                <label for="nom">
+                    Nom
+                </label>
+
+                <input
+                    id="nom"
+                    name="nom"
+                    type="text"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="date">
+                    Date
+                </label>
+
+                <input
+                    id="date"
+                    name="date"
+                    type="date"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="lieu">
+                    Lieu
+                </label>
+
+                <input
+                    id="lieu"
+                    name="lieu"
+                    type="text"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="type_course">
+                    Type
+                </label>
+
+                <select
+                    id="type_course"
+                    name="type_course"
+                    required
+                >
+
+                    {% for type in types_course %}
+
+                        <option value="{{ type }}">
+                            {{ type }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="heure_depart">
+                    Heure de départ
+                </label>
+
+                <input
+                    id="heure_depart"
+                    name="heure_depart"
+                    type="time"
+                >
+
+            </div>
+
+
+            <div class="actions">
+
+                <button type="submit">
+                    Créer la course
+                </button>
+
+                <a
+                    href="{{ url_for('accueil') }}"
+                    class="button"
+                >
+                    Retour
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

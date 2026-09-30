@@ -1,14 +1,13 @@
-#-----------
+# ------------------------------------------------------------
 # MODÈLES DE DONNÉES
-#-----------
+# ------------------------------------------------------------
 # Définition des tables SQLAlchemy utilisées
-# par ChronoLive et de leurs relations.
+# par ChronoLive.
 #
-# Tables :
-# - Course
-# - Coureur
-# - Arrivee
-#-----------
+# Une base SQLite correspond à UNE seule course.
+# Les tables Coureur et Arrivee ne possèdent donc
+# plus de course_id.
+# ------------------------------------------------------------
 
 from datetime import datetime
 
@@ -16,16 +15,15 @@ from sqlalchemy import (
     Column,
     Date,
     DateTime,
-    ForeignKey,
     Integer,
     String,
     Time,
 )
+
 from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
     mapped_column,
-    relationship,
 )
 
 from config import STATUT_INSCRIT
@@ -38,40 +36,87 @@ class Base(DeclarativeBase):
 class Course(Base):
     __tablename__ = "courses"
 
-    id = Column(Integer, primary_key=True)
+    # Clé primaire technique obligatoire pour SQLAlchemy.
+    # Elle n'est pas utilisée par la logique métier.
+    cle = Column(
+        Integer,
+        primary_key=True,
+        default=1
+    )
 
-    nom = Column(String, nullable=False)
+    nom = Column(
+        String,
+        nullable=False
+    )
 
-    date = Column(Date, nullable=False)
+    date = Column(
+        Date,
+        nullable=False
+    )
 
-    lieu = Column(String, nullable=True)
+    lieu = Column(
+        String,
+        nullable=True
+    )
 
-    coureurs = relationship(
-        "Coureur",
-        back_populates="course"
+    type_course = Column(
+        String,
+        nullable=False
+    )
+
+    heure_depart = Column(
+        Time,
+        nullable=True
     )
 
 
 class Coureur(Base):
     __tablename__ = "coureurs"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(
+        Integer,
+        primary_key=True
+    )
 
-    nom = Column(String, nullable=False)
+    nom = Column(
+        String,
+        nullable=False
+    )
 
-    prenom = Column(String, nullable=False)
+    prenom = Column(
+        String,
+        nullable=False
+    )
 
-    sexe = Column(String, nullable=False)
+    sexe = Column(
+        String,
+        nullable=False
+    )
 
-    date_naissance = Column(Date, nullable=False)
+    date_naissance = Column(
+        Date,
+        nullable=False
+    )
 
-    licence = Column(String, nullable=True)
+    licence = Column(
+        String,
+        nullable=True
+    )
 
-    club = Column(String, nullable=True)
+    club = Column(
+        String,
+        nullable=True
+    )
 
-    categorie = Column(String, nullable=False)
+    categorie = Column(
+        String,
+        nullable=False
+    )
 
-    categorie_ffc = Column(String, nullable=True)
+    categorie_ffc = Column(
+        String,
+        nullable=True
+    )
 
     dossard = Column(
         Integer,
@@ -97,18 +142,7 @@ class Coureur(Base):
     statut = Column(
         String,
         nullable=False,
-        default= STATUT_INSCRIT
-    )
-
-    course_id = Column(
-        Integer,
-        ForeignKey("courses.id"),
-        nullable=False
-    )
-
-    course = relationship(
-        "Course",
-        back_populates="coureurs"
+        default=STATUT_INSCRIT
     )
 
 
@@ -130,8 +164,3 @@ class Arrivee(Base):
         index=True
     )
 
-    course_id: Mapped[int] = mapped_column(
-        ForeignKey("courses.id"),
-        nullable=False,
-        index=True
-    )
