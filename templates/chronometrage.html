@@ -163,6 +163,7 @@
         .clock-panel {
 
             position: relative;
+            z-index: 5;
 
             flex: 0 0 auto;
 
@@ -249,13 +250,15 @@
            ARRIVEE MANQUEE
         ========================================== */
 
-        .arrival-missed-button {
+       .arrival-missed-button {
 
             position: absolute;
 
             right: 0;
 
             bottom: 20px;
+
+            z-index: 10;
 
             padding: 8px 12px;
 
@@ -264,7 +267,7 @@
 
             border-radius: 7px;
 
-            background: transparent;
+            background: #081a2f;
 
             color: #7f94a9;
 
@@ -273,6 +276,8 @@
             font-weight: 600;
 
             cursor: pointer;
+
+            pointer-events: auto;
         }
 
 
@@ -281,6 +286,203 @@
             background: #102c49;
 
             color: #ffffff;
+        }
+
+
+        /* ==========================================
+           POPUP ARRIVEE MANQUEE
+        ========================================== */
+
+        .arrival-missed-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 999;
+
+            background:
+                rgba(0, 0, 0, 0.45);
+        }
+
+
+        .arrival-missed-popup {
+
+            position: fixed;
+
+            top: 50%;
+            left: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            z-index: 1000;
+
+            width: 360px;
+
+            max-width: calc(100vw - 30px);
+
+            padding: 24px;
+
+            background: #102c49;
+
+            border:
+                1px solid #3b5d7d;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0, 0, 0, 0.45);
+        }
+
+
+        .arrival-missed-popup[hidden],
+        .arrival-missed-overlay[hidden] {
+
+            display: none;
+        }
+
+
+        .arrival-missed-title {
+
+            margin-bottom: 8px;
+
+            font-size: 19px;
+
+            font-weight: 700;
+
+            color: #ffffff;
+        }
+
+
+        .arrival-missed-description {
+
+            margin-bottom: 20px;
+
+            color: #9fb1c4;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        .arrival-missed-label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #d7e1eb;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .arrival-missed-input {
+
+            width: 100%;
+
+            padding: 10px 11px;
+
+            border:
+                1px solid #365675;
+
+            border-radius: 7px;
+
+            background: #081c31;
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            font-variant-numeric:
+                tabular-nums;
+
+            text-align: center;
+        }
+
+
+        .arrival-missed-input::placeholder {
+
+            color: #71869b;
+        }
+
+
+        .arrival-missed-input:focus {
+
+            outline: none;
+
+            border-color: #2589e8;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(37, 137, 232, 0.15);
+        }
+
+
+        .arrival-missed-actions {
+
+            margin-top: 18px;
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 8px;
+        }
+
+
+        .arrival-missed-cancel-button,
+        .arrival-missed-submit-button {
+
+            padding: 9px 15px;
+
+            border-radius: 7px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .arrival-missed-cancel-button {
+
+            border:
+                1px solid #365675;
+
+            background: transparent;
+
+            color: #aebdcb;
+        }
+
+
+        .arrival-missed-cancel-button:hover {
+
+            background: #173653;
+
+            color: #ffffff;
+        }
+
+
+        .arrival-missed-submit-button {
+
+            border: none;
+
+            background: #2589e8;
+
+            color: #ffffff;
+        }
+
+
+        .arrival-missed-submit-button:hover {
+
+            background: #1879d4;
         }
 
 
@@ -1143,6 +1345,14 @@
                 text-align: left;
             }
 
+
+            .arrival-missed-popup {
+
+                width: calc(100vw - 30px);
+
+                padding: 20px;
+            }
+
         }
 
     </style>
@@ -1238,9 +1448,100 @@
         <button
             type="button"
             class="arrival-missed-button"
+            onclick="ouvrirArriveeManquee()"
         >
             + Arrivée manquée
         </button>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         ARRIVEE MANQUEE
+    ================================================== -->
+
+    <div
+        id="arrivalMissedOverlay"
+        class="arrival-missed-overlay"
+        hidden
+        onclick="fermerArriveeManquee()"
+    ></div>
+
+
+    <div
+        id="arrivalMissedPopup"
+        class="arrival-missed-popup"
+        hidden
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="arrivalMissedTitle"
+    >
+
+        <div
+            id="arrivalMissedTitle"
+            class="arrival-missed-title"
+        >
+            Arrivée manquée
+        </div>
+
+
+        <div class="arrival-missed-description">
+
+            Saisissez l'heure à laquelle le coureur
+            est réellement passé sur la ligne d'arrivée.
+
+        </div>
+
+
+        <form
+            method="POST"
+            action="{{ url_for(
+                'chronometrage.enregistrer_arrivee_passee'
+            ) }}"
+        >
+
+            <label
+                for="arrivalMissedTime"
+                class="arrival-missed-label"
+            >
+                Heure de passage
+            </label>
+
+
+            <input
+                type="text"
+                id="arrivalMissedTime"
+                name="heure"
+                class="arrival-missed-input"
+                placeholder="HH:MM:SS.CC"
+                autocomplete="off"
+                inputmode="decimal"
+                required
+            >
+
+
+            <div class="arrival-missed-actions">
+
+                <button
+                    type="button"
+                    class="arrival-missed-cancel-button"
+                    onclick="fermerArriveeManquee()"
+                >
+                    Annuler
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="arrival-missed-submit-button"
+                >
+                    Enregistrer
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 
@@ -2151,6 +2452,84 @@ updateClock();
 
 
 /* ==========================================================
+   ARRIVEE MANQUEE
+========================================================== */
+
+function ouvrirArriveeManquee() {
+
+    const overlay =
+        document.getElementById(
+            "arrivalMissedOverlay"
+        );
+
+
+    const popup =
+        document.getElementById(
+            "arrivalMissedPopup"
+        );
+
+
+    const input =
+        document.getElementById(
+            "arrivalMissedTime"
+        );
+
+
+    if (overlay) {
+
+        overlay.hidden = false;
+
+    }
+
+
+    if (popup) {
+
+        popup.hidden = false;
+
+    }
+
+
+    if (input) {
+
+        input.focus();
+
+    }
+
+}
+
+
+function fermerArriveeManquee() {
+
+    const overlay =
+        document.getElementById(
+            "arrivalMissedOverlay"
+        );
+
+
+    const popup =
+        document.getElementById(
+            "arrivalMissedPopup"
+        );
+
+
+    if (overlay) {
+
+        overlay.hidden = true;
+
+    }
+
+
+    if (popup) {
+
+        popup.hidden = true;
+
+    }
+
+}
+
+
+
+/* ==========================================================
    COMPTE A REBOURS
 ========================================================== */
 
@@ -2556,6 +2935,8 @@ document.addEventListener(
 
             fermerErreur();
 
+            fermerArriveeManquee();
+
         }
 
     }
@@ -2567,3 +2948,4 @@ document.addEventListener(
 </body>
 
 </html>
+

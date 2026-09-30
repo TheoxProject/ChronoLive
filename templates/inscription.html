@@ -779,6 +779,14 @@
         }
 
 
+        .depart-fixe {
+
+            color: #6b7280;
+
+            font-weight: 600;
+        }
+
+
         /* ==========================================
            BADGE
         ========================================== */
@@ -1010,7 +1018,7 @@
 </head>
 
 
-<body>
+<body data-course-type="{{ course_type }}">
 
 
 <!-- ======================================================
@@ -2516,6 +2524,16 @@ function timeToSeconds(
    MODIFICATION D'UNE LIGNE
 ========================================================== */
 
+const TYPE_COURSE =
+    document.body.dataset.courseType;
+
+
+const DEPART_COMMUN =
+    TYPE_COURSE === "Grimpée"
+    ||
+    TYPE_COURSE === "Critérium";
+
+
 function editRow(
     button
 ) {
@@ -2726,19 +2744,46 @@ function editRow(
     `;
 
 
-    row.querySelector(
-        ".cell-depart"
-    ).innerHTML = `
+    /* --------------------------------------------------------
+       DEPART
 
-        <input
-            type="time"
-            class="edit-input"
-            name="heure_depart"
-            value="${escapeHtml(depart)}"
-            lang="fr-FR"
-        >
+       CLM :
+           départ individuel modifiable.
 
-    `;
+       Grimpée / Critérium :
+           départ commun imposé par la course.
+           Aucun champ de modification n'est affiché.
+    -------------------------------------------------------- */
+
+    if (DEPART_COMMUN) {
+
+        row.querySelector(
+            ".cell-depart"
+        ).innerHTML = `
+
+            <span class="depart-fixe">
+                ${escapeHtml(depart || "-")}
+            </span>
+
+        `;
+
+    } else {
+
+        row.querySelector(
+            ".cell-depart"
+        ).innerHTML = `
+
+            <input
+                type="time"
+                class="edit-input"
+                name="heure_depart"
+                value="${escapeHtml(depart)}"
+                lang="fr-FR"
+            >
+
+        `;
+
+    }
 
 
     const template =
