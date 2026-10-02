@@ -1,0 +1,907 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        ChronoLive - Caméra
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            padding: 20px;
+
+            background: #081a2f;
+
+            color: #ffffff;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 18px;
+
+        }
+
+
+        /* ==========================================
+           VIDEO
+        ========================================== */
+
+        video {
+
+            width: min(
+                100vw - 40px,
+                1200px
+            );
+
+            max-height: 75vh;
+
+            background: #000000;
+
+            border-radius: 10px;
+
+            object-fit: contain;
+        }
+
+
+        /* ==========================================
+           CONTROLES
+        ========================================== */
+
+        .controls {
+
+            width: min(
+                100%,
+                600px
+            );
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+            justify-content: center;
+        }
+
+
+        select {
+
+            min-width: 240px;
+
+            padding: 11px 12px;
+
+            border:
+                1px solid #365675;
+
+            border-radius: 8px;
+
+            background: #102c49;
+
+            color: #ffffff;
+
+            font-size: 14px;
+        }
+
+
+        select:focus {
+
+            outline: none;
+
+            border-color: #2589e8;
+
+        }
+
+
+        button {
+
+            padding: 12px 22px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #2589e8;
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        button:hover {
+
+            background: #1879d4;
+        }
+
+
+        button:disabled {
+
+            opacity: 0.5;
+
+            cursor: default;
+        }
+
+
+        /* ==========================================
+           INFORMATIONS
+        ========================================== */
+
+        #status {
+
+            color: #9fb1c4;
+
+            font-size: 13px;
+
+            text-align: center;
+
+        }
+
+
+        #resolution {
+
+            color: #71869b;
+
+            font-size: 12px;
+
+            font-variant-numeric:
+                tabular-nums;
+
+            text-align: center;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         VIDEO
+    ================================================== -->
+
+    <video
+        id="video"
+        autoplay
+        muted
+        playsinline
+    ></video>
+
+
+    <!-- ==================================================
+         CONTROLES
+    ================================================== -->
+
+    <div class="controls">
+
+
+        <select
+            id="cameraSelect"
+            disabled
+        >
+
+            <option value="">
+                Sélectionner une caméra
+            </option>
+
+        </select>
+
+
+        <button
+            id="startButton"
+            type="button"
+        >
+            Démarrer la caméra
+        </button>
+
+
+    </div>
+
+
+    <!-- ==================================================
+         STATUT
+    ================================================== -->
+
+    <div id="status">
+        Caméra inactive
+    </div>
+
+
+    <div id="resolution">
+        -
+    </div>
+
+
+    <!-- ==================================================
+         CANVAS
+    ================================================== -->
+
+    <canvas
+        id="canvas"
+        hidden
+    ></canvas>
+
+
+
+<script>
+
+/* ==========================================================
+   ELEMENTS
+========================================================== */
+
+const video =
+    document.getElementById(
+        "video"
+    );
+
+
+const canvas =
+    document.getElementById(
+        "canvas"
+    );
+
+
+const startButton =
+    document.getElementById(
+        "startButton"
+    );
+
+
+const cameraSelect =
+    document.getElementById(
+        "cameraSelect"
+    );
+
+
+const status =
+    document.getElementById(
+        "status"
+    );
+
+
+const resolution =
+    document.getElementById(
+        "resolution"
+    );
+
+
+/* ==========================================================
+   VARIABLES
+========================================================== */
+
+let stream = null;
+
+let envoiEnCours = false;
+
+let captureInterval = null;
+
+
+
+/* ==========================================================
+   CHARGER LES CAMERAS
+========================================================== */
+
+async function chargerCameras() {
+
+    const devices =
+        await navigator.mediaDevices.enumerateDevices();
+
+
+    const cameras =
+        devices.filter(
+            function(device) {
+
+                return (
+                    device.kind ===
+                    "videoinput"
+                );
+
+            }
+        );
+
+
+    cameraSelect.innerHTML = "";
+
+
+    cameras.forEach(
+        function(device, index) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                device.deviceId;
+
+
+            option.textContent =
+                device.label
+                || `Caméra ${index + 1}`;
+
+
+            cameraSelect.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    if (!cameras.length) {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value =
+            "";
+
+
+        option.textContent =
+            "Aucune caméra détectée";
+
+
+        cameraSelect.appendChild(
+            option
+        );
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   AFFICHER LA RESOLUTION REELLE
+========================================================== */
+
+function afficherResolution() {
+
+    if (
+        !stream
+        || !stream.getVideoTracks().length
+    ) {
+
+        resolution.textContent =
+            "-";
+
+        return;
+
+    }
+
+
+    const track =
+        stream.getVideoTracks()[0];
+
+
+    const settings =
+        track.getSettings();
+
+
+    const largeur =
+        settings.width;
+
+
+    const hauteur =
+        settings.height;
+
+
+    const fps =
+        settings.frameRate;
+
+
+    if (largeur && hauteur) {
+
+        if (fps) {
+
+            resolution.textContent =
+                `${largeur} × ${hauteur} · ${fps.toFixed(1)} FPS`;
+
+        } else {
+
+            resolution.textContent =
+                `${largeur} × ${hauteur}`;
+
+        }
+
+    } else {
+
+        resolution.textContent =
+            "-";
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   DEMARRER LA CAMERA
+========================================================== */
+
+async function demarrerCamera() {
+
+    try {
+
+        status.textContent =
+            "Demande d'accès à la caméra...";
+
+
+        /* --------------------------------------------------
+           Première demande d'autorisation.
+
+           Cette étape permet également au navigateur
+           de révéler les noms des différentes caméras.
+        -------------------------------------------------- */
+
+        const permissionStream =
+            await navigator.mediaDevices.getUserMedia({
+
+                video: true,
+
+                audio: false
+
+            });
+
+
+        permissionStream
+            .getTracks()
+            .forEach(
+                function(track) {
+
+                    track.stop();
+
+                }
+            );
+
+
+        /* --------------------------------------------------
+           Récupération des caméras.
+        -------------------------------------------------- */
+
+        await chargerCameras();
+
+
+        const deviceId =
+            cameraSelect.value;
+
+
+        if (!deviceId) {
+
+            status.textContent =
+                "Aucune caméra disponible.";
+
+            return;
+
+        }
+
+
+        /* --------------------------------------------------
+           Arrête l'ancien flux s'il existe.
+        -------------------------------------------------- */
+
+        arreterFlux();
+
+
+        /* --------------------------------------------------
+           Démarrage de la caméra choisie.
+        -------------------------------------------------- */
+
+        stream =
+            await navigator.mediaDevices.getUserMedia({
+
+                video: {
+
+                    deviceId: {
+                        exact: deviceId
+                    },
+
+                    width: {
+                        ideal: 1920
+                    },
+
+                    height: {
+                        ideal: 1080
+                    },
+
+                    frameRate: {
+                        ideal: 30,
+
+                        max: 30
+
+                    }
+
+                },
+
+                audio: false
+
+            });
+
+
+        video.srcObject =
+            stream;
+
+
+        cameraSelect.disabled =
+            false;
+
+
+        startButton.disabled =
+            true;
+
+
+        status.textContent =
+            "Caméra active · Envoi des images";
+
+
+        afficherResolution();
+
+
+        boucleCapture();
+
+    }
+    catch (erreur) {
+
+        console.error(
+            erreur
+        );
+
+
+        status.textContent =
+            "Impossible d'accéder à la caméra.";
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   CHANGER DE CAMERA
+========================================================== */
+
+cameraSelect.addEventListener(
+    "change",
+    async function() {
+
+        if (!stream) {
+
+            return;
+
+        }
+
+
+        const deviceId =
+            cameraSelect.value;
+
+
+        if (!deviceId) {
+
+            return;
+
+        }
+
+
+        try {
+
+            status.textContent =
+                "Changement de caméra...";
+
+
+            stream
+                .getTracks()
+                .forEach(
+                    function(track) {
+
+                        track.stop();
+
+                    }
+                );
+
+
+            stream =
+                await navigator.mediaDevices.getUserMedia({
+
+                    video: {
+
+                        deviceId: {
+                            exact: deviceId
+                        },
+
+                        width: {
+                            ideal: 1920
+                        },
+
+                        height: {
+                            ideal: 1080
+                        },
+
+                        frameRate: {
+                            ideal: 30,
+
+                            max: 30
+
+                        }
+
+                    },
+
+                    audio: false
+
+                });
+
+
+            video.srcObject =
+                stream;
+
+
+            afficherResolution();
+
+
+            status.textContent =
+                "Caméra active · Envoi des images";
+
+        }
+        catch (erreur) {
+
+            console.error(
+                erreur
+            );
+
+
+            status.textContent =
+                "Impossible de changer de caméra.";
+
+        }
+
+    }
+);
+
+
+
+/* ==========================================================
+   ARRETER LE FLUX
+========================================================== */
+
+function arreterFlux() {
+
+    if (!stream) {
+
+        return;
+
+    }
+
+
+    stream
+        .getTracks()
+        .forEach(
+            function(track) {
+
+                track.stop();
+
+            }
+        );
+
+
+    stream = null;
+
+}
+
+
+
+/* ==========================================================
+   ENVOYER UNE IMAGE
+========================================================== */
+
+async function envoyerFrame() {
+
+    if (
+        envoiEnCours
+        || !stream
+        || video.readyState < 2
+    ) {
+
+        return;
+
+    }
+
+
+    envoiEnCours = true;
+
+
+    try {
+
+        /*
+         * Pour l'étape 1, on conserve une largeur
+         * maximale de 1280 pixels pour limiter le
+         * débit réseau.
+         */
+
+        const largeurMax =
+            1280;
+
+
+        const ratio =
+            Math.min(
+                1,
+                largeurMax /
+                video.videoWidth
+            );
+
+
+        canvas.width =
+            Math.round(
+                video.videoWidth *
+                ratio
+            );
+
+
+        canvas.height =
+            Math.round(
+                video.videoHeight *
+                ratio
+            );
+
+
+        const contexte =
+            canvas.getContext(
+                "2d"
+            );
+
+
+        contexte.drawImage(
+            video,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+
+        const blob =
+            await new Promise(
+                function(resolve) {
+
+                    canvas.toBlob(
+                        resolve,
+                        "image/jpeg",
+                        0.70
+                    );
+
+                }
+            );
+
+
+        if (!blob) {
+
+            return;
+
+        }
+
+
+        const reponse =
+            await fetch(
+                "{{ url_for('detection_coureur.recevoir_frame') }}",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "image/jpeg"
+                    },
+
+                    body: blob
+                }
+            );
+
+
+        if (!reponse.ok) {
+
+            throw new Error(
+                `HTTP ${reponse.status}`
+            );
+
+        }
+
+    }
+    catch (erreur) {
+
+        console.error(
+            erreur
+        );
+
+
+        status.textContent =
+            "Erreur de transmission.";
+
+    }
+    finally {
+
+        envoiEnCours =
+            false;
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   BOUCLE DE CAPTURE
+========================================================== */
+
+function boucleCapture() {
+
+    if (captureInterval !== null) {
+
+        return;
+
+    }
+
+
+    captureInterval =
+        setInterval(
+            envoyerFrame,
+            125
+        );
+
+}
+
+
+
+/* ==========================================================
+   DEMARRAGE
+========================================================== */
+
+startButton.addEventListener(
+    "click",
+    demarrerCamera
+);
+
+</script>
+
+
+</body>
+
+</html>

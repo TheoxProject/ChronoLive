@@ -11,6 +11,9 @@ from pathlib import Path
 
 PORT_PUBLIC = 5000
 PORT_PRIVE = 5001
+PORT_CAMERA = 5002  # SERVEUR CAMÉRA / DÉTECTION AUTO
+
+
 
 
 # ------------------------------------------------------------
@@ -110,3 +113,16 @@ URL_CLASSEMENT_PUBLIC = (
     "https://theoxzenbook.tail7f7f8c.ts.net/"
     "classement_live"
 )
+
+
+
+
+# ------------------------------------------------------------
+# DETECTION COUREUR
+# ------------------------------------------------------------
+
+YOLO_MODELE_DETECTION = "yolo26n.pt"
+
+YOLO_DETECTION_IMGSZ = 640
+
+YOLO_DETECTION_CONF = 0.35

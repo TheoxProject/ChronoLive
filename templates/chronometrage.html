@@ -155,6 +155,138 @@
             gap: 12px;
         }
 
+        
+        /* ==========================================
+           MODE CHRONOMETRAGE
+        ========================================== */
+
+        .mode-selector {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            margin-bottom: 10px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            color: #8196aa;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.04em;
+        }
+
+
+        .mode-label {
+
+            transition:
+                color 0.2s ease;
+        }
+
+
+        .mode-label.active {
+
+            color: #ffffff;
+        }
+
+
+        .mode-switch {
+
+            position: relative;
+
+            width: 54px;
+
+            height: 28px;
+
+            flex: 0 0 auto;
+        }
+
+
+        .mode-switch input {
+
+            opacity: 0;
+
+            width: 0;
+
+            height: 0;
+        }
+
+
+        .mode-slider {
+
+            position: absolute;
+
+            inset: 0;
+
+            cursor: pointer;
+
+            background: #365675;
+
+            border-radius: 28px;
+
+            transition:
+                background 0.2s ease;
+        }
+
+
+        .mode-slider::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 20px;
+
+            height: 20px;
+
+            left: 4px;
+
+            top: 4px;
+
+            background: #ffffff;
+
+            border-radius: 50%;
+
+            transition:
+                transform 0.2s ease;
+        }
+
+
+        .mode-switch input:checked
+        + .mode-slider {
+
+            background: #2589e8;
+        }
+
+
+        .mode-switch input:checked
+        + .mode-slider::before {
+
+            transform:
+                translateX(26px);
+        }
+
+
+        .mode-status {
+
+            margin-top: 5px;
+
+            color: #34d399;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            text-align: center;
+        }
+
 
         /* ==========================================
            HORLOGE
@@ -1423,6 +1555,45 @@
 
     <div class="clock-panel">
 
+        <div class="mode-selector">
+
+            <span
+                id="modeManualLabel"
+                class="mode-label active"
+            >
+                Manuel
+            </span>
+
+
+            <label class="mode-switch">
+
+                <input
+                    type="checkbox"
+                    id="modeSwitch"
+                >
+
+                <span class="mode-slider"></span>
+
+            </label>
+
+
+            <span
+                id="modeAutoLabel"
+                class="mode-label"
+            >
+                Auto
+            </span>
+
+        </div>
+
+
+        <div
+            id="modeStatus"
+            class="mode-status"
+        >
+            ● Mode manuel actif
+        </div>
+
 
         <div id="clock">
             00:00:00<span class="clock-centiseconds">.00</span>
@@ -1489,7 +1660,7 @@
         <div class="arrival-missed-description">
 
             Saisissez l'heure à laquelle le coureur
-            est réellement passé sur la ligne d'arrivée.
+            est passé sur la ligne d'arrivée.
 
         </div>
 
@@ -2377,6 +2548,88 @@
 
 
 <script>
+
+/* ==========================================================
+   MODE CHRONOMETRAGE
+========================================================== */
+
+const modeSwitch =
+    document.getElementById(
+        "modeSwitch"
+    );
+
+
+const modeManualLabel =
+    document.getElementById(
+        "modeManualLabel"
+    );
+
+
+const modeAutoLabel =
+    document.getElementById(
+        "modeAutoLabel"
+    );
+
+
+const modeStatus =
+    document.getElementById(
+        "modeStatus"
+    );
+
+
+function updateChronometrageMode() {
+
+    const modeAuto =
+        modeSwitch.checked;
+
+
+    if (modeAuto) {
+
+        modeManualLabel.classList.remove(
+            "active"
+        );
+
+
+        modeAutoLabel.classList.add(
+            "active"
+        );
+
+
+        modeStatus.textContent =
+            "● Mode automatique actif";
+
+    } else {
+
+        modeAutoLabel.classList.remove(
+            "active"
+        );
+
+
+        modeManualLabel.classList.add(
+            "active"
+        );
+
+
+        modeStatus.textContent =
+            "● Mode manuel actif";
+
+    }
+
+}
+
+
+if (modeSwitch) {
+
+    modeSwitch.addEventListener(
+        "change",
+        updateChronometrageMode
+    );
+
+
+    updateChronometrageMode();
+
+}
+
 
 /* ==========================================================
    HORLOGE

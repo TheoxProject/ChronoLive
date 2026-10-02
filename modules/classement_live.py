@@ -9,6 +9,8 @@
 # - mise à jour en temps réel avec SSE
 # - notification des clients connectés
 #
+# Une base SQLite correspond à UNE seule course.
+#
 # Routes :
 # - /classement_live
 # - /classement_live/stream
@@ -37,9 +39,6 @@ classement_live_bp = Blueprint(
 )
 
 
-COURSE_ID = 1
-
-
 # Clients actuellement connectés au flux SSE.
 sse_clients = set()
 
@@ -49,11 +48,11 @@ sse_lock = threading.Lock()
 def construire_classement(session):
     # Construit le classement à partir des temps enregistrés.
 
-   # Seuls les coureurs officiellement arrivés sont transmis au classement public.
+    # Seuls les coureurs officiellement arrivés
+    # sont transmis au classement public.
     coureurs = (
         session.query(Coureur)
         .filter(
-            Coureur.course_id == COURSE_ID,
             Coureur.statut == STATUT_ARRIVE,
         )
         .order_by(
@@ -130,7 +129,6 @@ def classement_live():
     try:
         course = (
             session.query(Course)
-            .filter_by(id=COURSE_ID)
             .first()
         )
 

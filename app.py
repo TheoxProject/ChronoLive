@@ -38,6 +38,7 @@ from werkzeug.serving import make_server
 from config import (
     PORT_PRIVE,
     PORT_PUBLIC,
+    PORT_CAMERA,
     URL_CLASSEMENT_PUBLIC,
     TYPES_COURSE,
     TYPE_GRIMPEE,
@@ -60,6 +61,7 @@ from modules.chronometrage import chronometrage_bp
 from modules.classement_live import classement_live_bp
 from modules.resultats import resultats_bp
 from modules.dashboard import dashboard_bp
+from modules.detection_coureur import detection_coureur_bp
 
 from debug.database import debug_database_bp
 
@@ -75,13 +77,15 @@ app = Flask(__name__)
 # ENREGISTREMENT DES MODULES
 # ------------------------------------------------------------
 
+
+
 app.register_blueprint(inscription_bp)
 app.register_blueprint(chronometrage_bp)
 app.register_blueprint(classement_live_bp)
 app.register_blueprint(resultats_bp)
 app.register_blueprint(dashboard_bp)
 app.register_blueprint(debug_database_bp)
-
+app.register_blueprint(detection_coureur_bp)
 
 # ------------------------------------------------------------
 # FILTRE TERMINAL DASHBOARD
@@ -148,6 +152,10 @@ ENDPOINTS_GESTION_COURSES = {
     "enregistrer_modification_course",
 }
 
+ENDPOINTS_CAMERA = {
+    "detection_coureur.camera",
+    "detection_coureur.recevoir_frame",
+}
 
 # ------------------------------------------------------------
 # PROTECTION DES ROUTES
@@ -192,6 +200,12 @@ def proteger_routes():
     ):
 
         port = 0
+
+    if (
+        port == PORT_CAMERA
+        and endpoint in ENDPOINTS_CAMERA
+    ):
+        return
 
     # --------------------------------------------------------
     # TOUT LE RESTE EST PRIVÉ
@@ -882,8 +896,15 @@ if __name__ == "__main__":
         daemon=True,
     )
 
+    serveur_camera = threading.Thread(
+        target=lancer_serveur,
+        args=("127.0.0.1", PORT_CAMERA),
+        daemon=True,
+    )
+
     serveur_prive.start()
     serveur_public.start()
+    serveur_camera.start()
 
     print(
         "============================================================"

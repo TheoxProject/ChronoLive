@@ -11,6 +11,8 @@
 # - classement par sexe
 # - export PDF, PNG, Excel et CSV
 #
+# Une base SQLite correspond à UNE seule course.
+#
 # Routes :
 # - /resultats
 # - /export_resultats
@@ -44,9 +46,6 @@ resultats_bp = Blueprint(
 )
 
 
-COURSE_ID = 1
-
-
 SEXES = {
     "M": "Hommes",
     "F": "Femmes",
@@ -63,7 +62,6 @@ def construire_resultat(
     coureurs = (
         session.query(Coureur)
         .filter(
-            Coureur.course_id == COURSE_ID,
             Coureur.temps_centisecondes.isnot(None)
         )
     )
@@ -150,7 +148,6 @@ def page_resultats():
     try:
         course = (
             session.query(Course)
-            .filter_by(id=COURSE_ID)
             .first()
         )
 
@@ -251,7 +248,6 @@ def export_resultats():
     try:
         course = (
             session.query(Course)
-            .filter_by(id=COURSE_ID)
             .first()
         )
 

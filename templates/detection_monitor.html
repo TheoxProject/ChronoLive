@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        ChronoLive - Détection
+    </title>
+
+
+    <style>
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            background: #081a2f;
+
+            color: white;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 15px;
+
+        }
+
+
+        .status {
+
+            font-size: 14px;
+
+            color: #9fb1c4;
+
+        }
+
+
+        .status.active {
+
+            color: #34d399;
+
+        }
+
+
+        img {
+
+            width: min(
+                90vw,
+                1200px
+            );
+
+            max-height: 75vh;
+
+            object-fit: contain;
+
+            background: black;
+
+            border-radius: 10px;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div
+        id="status"
+        class="status"
+    >
+        En attente de la caméra...
+    </div>
+
+
+    <img
+        src="{{ url_for(
+            'detection_coureur.flux'
+        ) }}"
+        alt="Flux caméra"
+    >
+
+
+<script>
+
+const status =
+    document.getElementById(
+        "status"
+    );
+
+
+async function verifierStatut() {
+
+    try {
+
+        const reponse =
+            await fetch("{{ url_for('detection_coureur.status') }}"
+            );
+
+
+        const data =
+            await reponse.json();
+
+
+        if (data.connectee) {
+
+            status.classList.add(
+                "active"
+            );
+
+
+            status.textContent =
+                "● Caméra connectée";
+
+        } else {
+
+            status.classList.remove(
+                "active"
+            );
+
+
+            status.textContent =
+                "○ En attente de la caméra...";
+
+        }
+
+    }
+    catch (erreur) {
+
+        status.classList.remove(
+            "active"
+        );
+
+
+        status.textContent =
+            "Erreur de communication";
+
+    }
+
+}
+
+
+setInterval(
+    verifierStatut,
+    500
+);
+
+
+verifierStatut();
+
+</script>
+
+
+</body>
+
+</html>
